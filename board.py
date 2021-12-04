@@ -20,6 +20,7 @@ class Square:
 
     def build(self):
         self.level += 1
+        
 
 
 class Board:
