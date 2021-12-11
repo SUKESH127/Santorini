@@ -1,5 +1,6 @@
 
 import sys
+from typing import List
 
 from board import Board
 from player import Player
@@ -11,14 +12,16 @@ class ProcessInput():
 
         self.whitePlayer = "human"
         self.bluePlayer = "human"
-        self.enableUndoRedo = "off"
-        self.enableScore = "off"
+        self.enableUndoRedo = False
+        self.enableScoreHistory = False
 
         if not self.validateSetup():
             print("Invalid setup")
             sys.exit(1)
         else:
-            Manager()._run()
+            playerList = [self.whitePlayer, self.bluePlayer]
+            manager = Manager(playerList, self.enableUndoRedo, self.enableScoreHistory)
+            manager.playGame()
     
     def validateSetup(self):
         return self.checkWhitePlayer() and self.checkBluePlayer() and self.checkEnableUndoRedo() and self.checkEnableScore()
@@ -53,15 +56,30 @@ class ProcessInput():
 
 
 class Manager:
-    def __init__(self):
-        self._board = Board()
-        self._p1 = Player()
-        self._p2 = Player()
+    def __init__(self, playerTypes: List, undoRedo: bool, scoreHistory: bool):
+        self.undoRedo = undoRedo
+        self.scoreHistory = scoreHistory
+        self.currentBoardState = Board()
+        self.players = [Player(playerTypes[0], "white"), Player(playerTypes[1], "blue")]
+        self.currentPlayer = self.players[0]
 
-    def run(self):
+    def playGame(self):
         
+
         while True:
             break
+    
+    def _undo(self):
+        pass
+    
+    def _redo(self):
+        pass
+    
+    def _save(self):
+        pass
+    
+    def _switchPlayers(self):
+        self.currentPlayer = self.players[1] if self.currentPlayer == self.players[0] else self.players[0]
 
 if __name__ == "__main__":
     ProcessInput(sys.argv)
