@@ -56,24 +56,27 @@ class Board:
 
 class Square:
     def __init__(self):
-        self._level = 0
-        self._worker = ' '
+        self.level = 0
+        self.worker = ' '
         self.row = None
         self.cols = None
     
     def has_worker(self):
-        if self._worker == ' ':
+        if self.worker == ' ':
             return False
         return True
     
     def assign_worker(self, w):
-        self._worker = w
+        self.worker = w
+
+    def remove_worker(self):
+        self.worker = ' '
     
     def can_build(self):
-        return self._level != 4   
+        return self.level != 4   
 
     def build(self):
-        self._level += 1
+        self.level += 1
     
     def __str__(self):
-        return f'{self._level}{self._worker}'
+        return f'{self.level}{self.worker}'
