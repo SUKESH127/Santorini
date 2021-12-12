@@ -1,13 +1,9 @@
 
 class Board:
     def __init__(self, players):
-        self.row = None
-        self.cols = None
         self.board = []
         self.players = players
         self.current_player = players[0]
-        self.whiteWorkers = []
-        self.blueWorkers = []
         self.initialize_board()
 
     def initialize_board(self):
@@ -18,20 +14,20 @@ class Board:
                 row.append(Square())
             self.board.append(row)
         
-        # assign player 1's workers
-        self.board[3][1].assign_worker('A')
-        self.board[1][3].assign_worker('B')
+        # assign white player's workers
+        self.board[3][1].assignworker('A')
+        self.board[1][3].assignworker('B')
 
-        # assign player 2's workers
-        self.board[1][1].assign_worker('Y')
-        self.board[3][3].assign_worker('Z')
+        # assign blue player's workers
+        self.board[1][1].assignworker('Y')
+        self.board[3][3].assignworker('Z')
 
     def moveWorker(self, worker, row, col):
         # if worker in self.whiteWorkers:
         #     self.whiteWorkers.remove(worker)
         # elif worker in self.blueWorkers:
         #     self.blueWorkers.remove(worker)
-        # self.board[row][col].assign_worker(worker)
+        # self.board[row][col].assignworker(worker)
         pass
 
     def updateBoard(self):
@@ -56,24 +52,27 @@ class Board:
 
 class Square:
     def __init__(self):
-        self._level = 0
-        self._worker = ' '
+        self.level = 0
+        self.worker = ' '
         self.row = None
         self.cols = None
     
-    def has_worker(self):
-        if self._worker == ' ':
+    def hasWorker(self):
+        if self.worker == ' ':
             return False
         return True
     
-    def assign_worker(self, w):
-        self._worker = w
+    def assignWorker(self, w):
+        self.worker = w
+
+    def removeWorker(self):
+        self.worker = ' '
     
-    def can_build(self):
-        return self._level != 4   
+    def canBuild(self):
+        return self.level != 4   
 
     def build(self):
-        self._level += 1
+        self.level += 1
     
     def __str__(self):
-        return f'{self._level}{self._worker}'
+        return f'{self.level}{self.worker}'
