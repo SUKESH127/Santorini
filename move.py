@@ -2,16 +2,17 @@ from worker import Worker
 import numpy as np
 
 class Move:
-    def __init__(self, worker, moveDirection, buildDirection):
+    def __init__(self, worker, moveDirection, buildDirection, board):
         self.worker = worker
-        self.directionToMove = self.convertDirection(moveDirection)
-        self.directionToBuild = self.convertDirection(buildDirection)
+        self.board = board
+        self.moveOperation = self.convertMoveDirection(moveDirection)
+        self.buildOperation = self.convertMoveDirection(buildDirection)
         self.startPosition = self.worker.position
         self.endPosition = [0, 0]
 
     def execute(self):
         self.updateLocation()
-        self.build()
+        self.updateBuild()
 
     def convertMoveDirection(self, direction):
         convertedDirection = [0, 0]
@@ -31,24 +32,26 @@ class Move:
             convertedDirection = [1, 1]
         elif direction == 'sw':
             convertedDirection = [-1, 1]
-        else:
-            print('Invalid move direction')
         return convertedDirection
 
-    def canMove(self)->bool:
-        pass
-
-    def canBuild(self)->bool:
-        pass
-
     def updateLocation(self):
-        move = [0,0]
+        # remove worker from old position
         x, y = self.startPosition[0], self.startPosition[1]
-        self.board[x][y].remove_worker()
-        self.board[x + move[0]][y + move[1]].assign_worker(self.worker)
+        self.board[x][y].removeWorker()
+        # add worker to new position
+        changeX, changeY = self.moveOperation[0], self.moveOperation[1]
+        self.endPosition = [x + changeX, y + changeY]
+        endX, endY = self.endPosition[0], self.endPosition[1]
+        self.board[endX][endY].assign_worker(self.worker)
     
-    def build(self):
-        pass
+    def updateBuild(self):
+        # get location to build
+        x, y = self.endPosition[0], self.endPosition[1]
+        changeX, changeY = self.buildOperation[0], self.buildOperation[1]
+        buildX, buildY = x + changeX, y + changeY
+        # build new tile
+        self.board[buildX][buildY].build()
+
 
 
 
