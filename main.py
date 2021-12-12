@@ -1,6 +1,5 @@
 
 import sys
-from typing import List
 
 from board import Board
 from player import Player
@@ -12,18 +11,14 @@ class ProcessInput():
 
         self.whitePlayer = "human"
         self.bluePlayer = "human"
-        self.enableUndoRedo = False
-        self.enableScoreHistory = False
-        if len(self.args) != 4:
-            print("Invalid number of arguments")
-            sys.exit(1)
-        elif not self.validateSetup():
+        self.enableUndoRedo = "off"
+        self.enableScore = "off"
+
+        if not self.validateSetup():
             print("Invalid setup")
             sys.exit(1)
         else:
-            playerList = [self.whitePlayer, self.bluePlayer]
-            manager = Manager(playerList, self.enableUndoRedo, self.enableScoreHistory)
-            manager.playGame()
+            Manager()._run()
     
     def validateSetup(self):
         return self.checkWhitePlayer() and self.checkBluePlayer() and self.checkEnableUndoRedo() and self.checkEnableScore()
@@ -42,7 +37,7 @@ class ProcessInput():
             self.bluePlayer = self.args[1]
             return True
     
-    def checkEnableUndoRedo(self):
+    def checkEnableUndoRedo(self): 
         if self.args[2] not in {"on", "off"}:
             return False
         else:
@@ -58,37 +53,20 @@ class ProcessInput():
 
 
 class Manager:
-    def __init__(self, playerTypes: List, undoRedo: bool, scoreHistory: bool):
-        self.undoRedo = undoRedo
-        self.scoreHistory = scoreHistory
-        self.players = [Player(playerTypes[0], "white"), Player(playerTypes[1], "blue")]
-        self.currentBoardState = Board(self.players)
-        self.currentPlayer = self.players[0]
-        self.turn = 1
+    def __init__(self):
+        self._board = Board()
+        self._p1 = Player()
+        self._p2 = Player()
 
-    def playGame(self):
-        while not self.currentBoardState.checkGameOver():
-            self.currentBoardState.printBoard()
-            print(f"Turn {self.turn}, {self.currentPlayer.color} ({self.currentPlayer.getWorkersString()})")
-            self.currentPlayer.playMove(self.currentBoardState)
-            self._switchPlayers()
-            self.turn += 1
-            # remove later
-            if self.turn == 5:
+    def run(self):
+        
+        while True:
+            if not self._p1.player_turn(self._board.grid):
+                print("Player 2 wins")
                 break
-    
-    def _undo(self):
-        pass
-    
-    def _redo(self):
-        pass
-    
-    def _save(self):
-        pass
-    
-    def _switchPlayers(self):
-        self.currentBoardState.switch_player()
-        self.currentPlayer = self.currentBoardState.current_player
+            if not self._p2.player_turn(self._board.grid):
+                print("Player 1 wins")
+                break
 
 if __name__ == "__main__":
-    p = ProcessInput(sys.argv)
+    ProcessInput(sys.argv)
