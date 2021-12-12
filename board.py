@@ -33,7 +33,6 @@ class Board:
         # self.board[row][col].assign_worker(worker)
         pass
 
-
     def updateBoard(self):
         pass
 
@@ -41,9 +40,9 @@ class Board:
         pass
 
     def checkGameOver(self):
-        pass
+        return False
     
-    def __str__(self):
+    def printBoard(self):
         print("+--+--+--+--+--+")
         for i in range(5):
             for j in range(5):

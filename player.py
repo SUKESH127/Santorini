@@ -2,18 +2,19 @@
 from move import Move
 
 class Player:
-    def __init__(self, color: str):
+    def __init__(self, playerType, color: str):
+        self.playerType = playerType
         self.color = color
         self.selectedWorker = None
     
-    def playMove(currBoard):
+    def playMove(self, currBoard):
         pass
 
-    def getMoves(currBoard):
+    def getMoves(self, currBoard):
         pass
 
-    def getBuilds(currBoard):
+    def getBuilds(self, currBoard):
         pass
 
-    def executeMove(move: Move):
+    def executeMove(self, move: Move):
         pass

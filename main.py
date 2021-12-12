@@ -64,10 +64,11 @@ class Manager:
         self.currentPlayer = self.players[0]
 
     def playGame(self):
-        
-
-        while True:
-            break
+        while not self.currentBoardState.checkGameOver():
+            self.currentBoardState.printBoard()
+            self.currentPlayer.playMove(self.currentBoardState)
+            self._switchPlayers()
+            break # remove later
     
     def _undo(self):
         pass
@@ -82,4 +83,4 @@ class Manager:
         self.currentPlayer = self.players[1] if self.currentPlayer == self.players[0] else self.players[0]
 
 if __name__ == "__main__":
-    ProcessInput(sys.argv)
+    p = ProcessInput(sys.argv)

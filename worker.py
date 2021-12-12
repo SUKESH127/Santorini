@@ -8,5 +8,5 @@ class Worker:
         self.BoardState = None
         self.moves = []
     
-    def findAllMoves():
+    def findAllMoves(self):
         pass

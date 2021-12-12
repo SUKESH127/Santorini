@@ -5,8 +5,8 @@ class Human:
     def __init__(self, name):
         pass
     
-    def getMoves(currBoard: Board):
+    def getMoves(self, currBoard: Board):
         pass
 
-    def selectMoves(moves: Move):
+    def selectMoves(self, moves: Move):
         pass
