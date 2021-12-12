@@ -1,12 +1,14 @@
 
 import sys
+from typing import List
 
 from board import Board
+from factory import Factory
 from player import Player
 
 import sys
 class ProcessInput():
-    def __init__(self, args):
+    def __init__(self, args: List[str]):
         self.args = args[1:]
 
         self.whitePlayer = "human"
@@ -18,7 +20,10 @@ class ProcessInput():
             print("Invalid setup")
             sys.exit(1)
         else:
-            Manager()._run()
+            keepHistory = True if self.enableUndoRedo == "on" else False
+            keepScore = True if self.enableScore == "on" else False
+            m = Manager(self.whitePlayer, self.bluePlayer, keepHistory, keepScore)
+            m.playGame()
     
     def validateSetup(self):
         return self.checkWhitePlayer() and self.checkBluePlayer() and self.checkEnableUndoRedo() and self.checkEnableScore()
@@ -53,20 +58,39 @@ class ProcessInput():
 
 
 class Manager:
-    def __init__(self):
-        self._board = Board()
-        self._p1 = Player()
-        self._p2 = Player()
+    def __init__(self, whitePlayerType: str, bluePlayerType: str, enableUndoRedo: bool, enableScore: bool):
+        self.board = Board()
+        self.whitePlayer = Factory().createPlayer(whitePlayerType, "white")
+        self.bluePlayer = Factory().createPlayer(bluePlayerType, "blue")
+        self.players = [self.whitePlayer, self.bluePlayer]
+        self.currentPlayer = self.whitePlayer
+        self.enableUndoRedo = enableUndoRedo
+        self.enableScore = enableScore
+    
+    def printGameStatus(self):
+        print("Game over")
 
-    def run(self):
-        
-        while True:
-            if not self._p1.player_turn(self._board.grid):
-                print("Player 2 wins")
-                break
-            if not self._p2.player_turn(self._board.grid):
-                print("Player 1 wins")
-                break
+    def undo(self):
+        #self.board.undo()
+        pass
+    
+    def redo(self):
+        #self.board.redo()
+        pass
 
+    def save(self):
+        pass
+
+    def switchPlayer(self):
+        self.board.switchPlayer()
+
+    def playGame(self):
+        while not self.board.checkGameOver():
+            self.board.printBoard()
+            if self.enableScore:
+                self.board.printScore()
+            self.currentPlayer.playMove(self.board)
+            self.switchPlayer()
+        self.printGameStatus()
 if __name__ == "__main__":
     ProcessInput(sys.argv)

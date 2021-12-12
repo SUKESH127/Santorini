@@ -37,11 +37,15 @@ class Board:
     def updateBoard(self):
         pass
 
-    def switch_player(self):
+    def switchPlayer(self):
         self.current_player = self.players[1] if self.current_player == self.players[0] else self.players[0]
 
     def checkGameOver(self):
         return False
+
+    def printScore(self):
+        #print(f'Player 1: {self.players[0].score}')
+        print("score")
     
     def printBoard(self):
         print("+--+--+--+--+--+")
