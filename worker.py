@@ -4,8 +4,7 @@ class Worker:
         self.rowNumber = 0
         self.columnNumber = 0
         self.color = color
-        self.BoardState = None
         self.moves = []
 
-    def findAllMoves(self):
+    def findAllMoves(self, board):
         pass

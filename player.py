@@ -2,20 +2,17 @@
 from move import Move
 
 class Player:
-    possibleWhiteWorkers = ["A", "B"]
-    possibleBlueWorkers = ["Y", "Z"]
-    possibleMoves = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
-    possibleBuilds = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
 
     def __init__(self, playerType, color: str):
         self.playerType = playerType
         self.color = color
         self.selectedWorker = None
-        self.possibleWorkers = possibleWhiteWorkers if color == "white" else possibleBlueWorkers
+        self.possibleWorkers = ["A", "B"] if color == "white" else ["A", "B"]
+        self.possibleDirections = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
         
     def playMove(self, currBoard):
         self.getWorker()
-        self.getMove()
+        self.getMoves()
         self.getBuild()
         self.executeMove()
 
