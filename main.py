@@ -14,8 +14,10 @@ class ProcessInput():
         self.bluePlayer = "human"
         self.enableUndoRedo = False
         self.enableScoreHistory = False
-
-        if not self.validateSetup():
+        if len(self.args) != 4:
+            print("Invalid number of arguments")
+            sys.exit(1)
+        elif not self.validateSetup():
             print("Invalid setup")
             sys.exit(1)
         else:
@@ -59,16 +61,21 @@ class Manager:
     def __init__(self, playerTypes: List, undoRedo: bool, scoreHistory: bool):
         self.undoRedo = undoRedo
         self.scoreHistory = scoreHistory
-        self.currentBoardState = Board()
         self.players = [Player(playerTypes[0], "white"), Player(playerTypes[1], "blue")]
+        self.currentBoardState = Board(self.players)
         self.currentPlayer = self.players[0]
+        self.turn = 1
 
     def playGame(self):
         while not self.currentBoardState.checkGameOver():
             self.currentBoardState.printBoard()
+            print(f"Turn {self.turn}, {self.currentPlayer.color} ({self.currentPlayer.getWorkersString()})")
             self.currentPlayer.playMove(self.currentBoardState)
             self._switchPlayers()
-            break # remove later
+            self.turn += 1
+            # remove later
+            if self.turn == 5:
+                break
     
     def _undo(self):
         pass
@@ -80,7 +87,8 @@ class Manager:
         pass
     
     def _switchPlayers(self):
-        self.currentPlayer = self.players[1] if self.currentPlayer == self.players[0] else self.players[0]
+        self.currentBoardState.switch_player()
+        self.currentPlayer = self.currentBoardState.current_player
 
 if __name__ == "__main__":
     p = ProcessInput(sys.argv)

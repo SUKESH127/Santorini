@@ -1,5 +1,4 @@
 
-
 class Worker:
     def __init__(self, color):
         self.rowLocation = 0

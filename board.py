@@ -1,12 +1,13 @@
 
 class Board:
-    def __init__(self):
+    def __init__(self, players):
         self.row = None
         self.cols = None
         self.board = []
+        self.players = players
+        self.current_player = players[0]
         self.whiteWorkers = []
         self.blueWorkers = []
-        self.current_player = None
         self.initialize_board()
 
     def initialize_board(self):
@@ -37,7 +38,7 @@ class Board:
         pass
 
     def switch_player(self):
-        pass
+        self.current_player = self.players[1] if self.current_player == self.players[0] else self.players[0]
 
     def checkGameOver(self):
         return False
