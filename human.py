@@ -1,5 +1,6 @@
 from move import Move
 from board import Board
+from player import Player
 
 class Human(Player):
      def __init__(self, color: str):
