@@ -4,7 +4,7 @@ from player import Player
 
 class Human(Player):
     def __init__(self, color: str):
-        super().__init__(self, "Human", color)      
+        super().__init__("human", color)      
         
     def getWorker(self):
         while self.selectedWorker not in self.possibleWorkers:
@@ -31,9 +31,13 @@ class Human(Player):
             directionToBuild = input("Select direction to build\n")
         return directionToBuild
 
-    def selectMove(self, board):
+    def selectMove(self, currBoard):
         self.getWorker()
         moveDir = self.getMove(board)
         buildDir = self.getBuild(board)
-        return Move(self.selectedWorker, moveDir, buildDir)
+        return Move(self.selectedWorker, moveDir, buildDir, currBoard)
+    
+    def playMove(self, currBoard):
+        m = self.selectMove(currBoard)
+        m.executeMove()
 

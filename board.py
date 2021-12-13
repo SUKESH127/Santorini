@@ -15,12 +15,12 @@ class Board:
             self.board.append(row)
         
         # assign white player's workers
-        self.board[3][1].assignworker('A')
-        self.board[1][3].assignworker('B')
+        self.board[3][1].assignWorker('A')
+        self.board[1][3].assignWorker('B')
 
         # assign blue player's workers
-        self.board[1][1].assignworker('Y')
-        self.board[3][3].assignworker('Z')
+        self.board[1][1].assignWorker('Y')
+        self.board[3][3].assignWorker('Z')
     
     def getSquare(self, position):
         x, y = position[0], position[1]

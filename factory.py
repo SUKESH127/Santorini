@@ -7,10 +7,10 @@ class Factory:
         pass
     
     def createPlayer(self, color, playerType):
-        if playerType == "human":
+        if playerType == 'human':
             return Human(color)
-        elif playerType == "heuristic":
+        elif playerType == 'heuristic':
             return Heuristic(color)
-        elif playerType == "random":
+        elif playerType == 'random':
             return Random(color)
         return None

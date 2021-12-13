@@ -9,12 +9,14 @@ from player import Player
 import sys
 class ProcessInput():
     def __init__(self, args: List[str]):
-        self.args = args[1:]
+        self.args = ['human', 'human', 'off', 'off']
+        for i in range(1, len(args)):
+             self.args[i - 1] = args[i]
 
-        self.whitePlayer = "human"
-        self.bluePlayer = "human"
-        self.enableUndoRedo = "off"
-        self.enableScore = "off"
+        self.whitePlayer = ""
+        self.bluePlayer = ""
+        self.enableUndoRedo = ""
+        self.enableScore = ""
 
         if not self.validateSetup():
             print("Invalid setup")
@@ -25,7 +27,7 @@ class ProcessInput():
             m = Manager(self.whitePlayer, self.bluePlayer, keepHistory, keepScore)
             m.playGame()
     
-    def validateSetup(self):
+    def validateSetup(self, ):
         return self.checkWhitePlayer() and self.checkBluePlayer() and self.checkEnableUndoRedo() and self.checkEnableScore()
     
     def checkWhitePlayer(self):
@@ -59,13 +61,16 @@ class ProcessInput():
 
 class Manager:
     def __init__(self, whitePlayerType: str, bluePlayerType: str, enableUndoRedo: bool, enableScore: bool):
-        self.board = Board()
-        self.whitePlayer = Factory().createPlayer(whitePlayerType, "white")
-        self.bluePlayer = Factory().createPlayer(bluePlayerType, "blue")
+        self.whitePlayer = Factory().createPlayer("white", whitePlayerType)
+        self.bluePlayer = Factory().createPlayer("blue", bluePlayerType)
         self.players = [self.whitePlayer, self.bluePlayer]
+        self.board = Board(self.players)
         self.currentPlayer = self.whitePlayer
         self.enableUndoRedo = enableUndoRedo
         self.enableScore = enableScore
+        print(self.whitePlayer)
+        print(self.bluePlayer)
+
     
     def printGameStatus(self):
         print("Game over")
@@ -92,5 +97,6 @@ class Manager:
             self.currentPlayer.playMove(self.board)
             self.switchPlayer()
         self.printGameStatus()
+
 if __name__ == "__main__":
     ProcessInput(sys.argv)
