@@ -35,23 +35,24 @@ class HeuristicPlayer(Player):
                 finalY = w.position[1] + moveValue[1]
                 finalPosition = [finalX, finalY]
                 # compute move score
-                totalMoveScore = self.computeMoveScore(currBoardState, finalPosition, currentPlayer, opponent)
+                totalMoveScore = self.computeMoveScore(currBoardState, w, finalPosition, currentPlayer, opponent)
                 # add move candidate to list of moves
-                moveCandidate = (newMoveScore, moveDirection, w)
+                moveCandidate = (totalMoveScore, moveDirection, w)
                 moveCandidates.append(moveCandidate)
         return moveCandidates
     
-    def computeMoveScore(boardState, position, currentPlayer, opponent):
+    def computeMoveScore(self, boardState, currentWorker, position, currentPlayer, opponent):
+        currentPlayer.selectedWorker = currentWorker
         height = self.computeHeightScore(boardState, position)
         center = self.computeCenterScore(boardState, position)
-        distance = self.computeDistanceScore(currentPlayer, opponent, position)
+        distance = self.computeDistanceScore(boardState, currentPlayer, opponent, position)
         if height == 3:
                 return float('inf')
         return (3 * height) + (2 * center) + (distance)
 
     def pickBestMove(self, possibleMoves):
         ties = []
-        possibleMoves.sort(reverse=True)
+        possibleMoves.sort(key=lambda y: y[0], reverse=True)
         bestMoveScore = possibleMoves[0][0]
         for move in possibleMoves:
             if move[0] == bestMoveScore:
@@ -60,19 +61,17 @@ class HeuristicPlayer(Player):
         return random.choice(ties)
 
     def computeHeightScore(self, currBoardState, position):
-        def getHeightScore(currBoardState, position):
-            x, y = position[0], position[1]
-            square = currBoardState.getSquare([x, y])
-            return square.level
+        def getSquareHeight(currBoardState, position):
+            return currBoardState.getSquare(position).level
 
         # sum of the heights of the buildings a player's workers
-        movedWorkerHeight = getHeightScore(currBoardState, position)
-        otherWorker = self.possibleWorkers[0] if self.selectedWorker == self.possibleWorkers[1] else self.possibleWorkers[1]
-        otherWorkerHeight = otherWorker.getHeightScore(currBoardState, position)
+        movedWorkerHeight = getSquareHeight(currBoardState, position)
+        otherWorker = self.w1 if self.selectedWorker == self.w2 else self.w1
+        otherWorkerHeight = getSquareHeight(currBoardState, otherWorker.position)
         return movedWorkerHeight + otherWorkerHeight
 
     def computeCenterScore(self, currBoardState, position):
-        def getCenterScore(position):
+        def getCenterScore(currBoardState, position):
             x, y = position[0], position[1]
             if x == 0 or x == 4 or y == 0 or y == 4:
                 return 2
@@ -82,8 +81,8 @@ class HeuristicPlayer(Player):
                 return 0
 
         movedWorkerCenter = getCenterScore(currBoardState, position)
-        otherWorker = self.possibleWorkers[0] if self.selectedWorker == self.possibleWorkers[1] else self.possibleWorkers[1]
-        otherWorkerCenter = otherWorker.getCenterScore(currBoardState, position)
+        otherWorker = self.w1 if self.selectedWorker == self.w2 else self.w1
+        otherWorkerCenter = getCenterScore(currBoardState, otherWorker.position)
         return movedWorkerCenter + otherWorkerCenter
 
     def computeDistanceScore(self, currBoardState, currentPlayer, opponent, newMoveEndPosition):
@@ -100,26 +99,25 @@ class HeuristicPlayer(Player):
             return distOpp1 + distOpp2
 
         # get current Player and opponent 
-        currentPlayer = currBoardState.current_player
-        opponent = currBoardState.players[1] if (currBoardState.current_player == currBoardState.players[0]) else currBoardState.players[0]
+        opponent = currBoardState.players[1] if (currentPlayer == currBoardState.players[0]) else currBoardState.players[0]
         # get the moved worker for the current player
         currentPlayerMovedWorkerPosition = newMoveEndPosition
         # get the other worker for the current player
-        currentPlayerOtherWorker = self.possibleWorkers[0] if self.selectedWorker == self.possibleWorkers[1] else self.possibleWorkers[1]
+        currentPlayerOtherWorker = currentPlayer.w2 if currentPlayer.selectedWorker == currentPlayer.w1 else currentPlayer.w1
         # get positions of both workers of the current player
         currentPlayerOtherWorkerPosition = currentPlayerOtherWorker.position
         currentPlayerPositions = [currentPlayerMovedWorkerPosition, currentPlayerOtherWorkerPosition]
         # get the positions of the opponent's workers
-        opponentPositions = [opponent.workers[0].position, opponent.workers[1].position]
+        opponentPositions = [opponent.w1.position, opponent.w2.position]
         # compute distance score
         distanceScore = distancePlayerToOpponent(currentPlayerPositions, opponentPositions)
         return distanceScore
     
     def playMove(self, currBoardState):
-        super().playMove(currBoardState)
+        return super().playMove(currBoardState)
     
     def getCurrentScore(self, currBoardState):
-        super().getCurrentScore(currBoardState)
+        return super().getCurrentScore(currBoardState)
     
     def convertCardinalDirection(self, direction):
         convertedDirection = [0, 0]
