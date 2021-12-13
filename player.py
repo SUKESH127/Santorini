@@ -33,8 +33,7 @@ class Player:
     
     def getTotalHeightScore(self, currBoardState):
         def getHeightScore(currBoardState, position):
-            x, y = position[0], position[1]
-            square = currBoardState.getSquare([x, y])
+            square = currBoardState.getSquare(position)
             return square.level
 
         # sum of the heights of the buildings a player's workers
@@ -78,7 +77,7 @@ class Player:
         # get opponent positions
         opponent = currBoardState.players[1] if (currBoardState.current_player == currBoardState.players[0]) else currBoardState.players[0]
         # get the positions of the opponent's workers
-        opponentPositions = [opponent.w1.posititon, opponent.w2.posititon]
+        opponentPositions = [opponent.w1.position, opponent.w2.position]
         # compute distance score
         self.distanceScore = distancePlayerToOpponent(currentPlayerPositions, opponentPositions)
 
@@ -86,4 +85,5 @@ class Player:
         self.getTotalHeightScore(currBoardState)
         self.getTotalCenterScore(currBoardState)
         self.getTotalDistanceScore(currBoardState)
-        return f", {self.heightScore}, {self.centerScore}, {self.distanceScore}"
+        #print("height: ", self.heightScore, "center: ", self.centerScore, "distance: ", self.distanceScore)
+        return f", ({self.heightScore}, {self.centerScore}, {self.distanceScore})"

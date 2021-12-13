@@ -35,7 +35,7 @@ class RandomPlayer(Player):
         return directionToBuild
 
     def playMove(self, currBoardState):
-        super().playMove(currBoardState)
+        return super().playMove(currBoardState)
     
     def getCurrentScore(self, currBoardState):
-        super().getCurrentScore(currBoardState)
+        return super().getCurrentScore(currBoardState)
