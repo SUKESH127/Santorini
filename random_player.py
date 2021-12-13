@@ -8,6 +8,9 @@ class RandomPlayer(Player):
 
     def selectMove(self, currBoard):
         moveDir = self.getMoveAndWorker(currBoard)
+        if not moveDir:
+            # no valid moves, this player loses
+            return None
         worker = self.selectedWorker
         buildDir = self.getBuild(currBoard, moveDir)
         print(f"{worker.name},{moveDir},{buildDir}")
@@ -19,6 +22,9 @@ class RandomPlayer(Player):
             for direction in worker.findAllMoves(board):
                 validChoice = (worker, direction)
                 validMoves.append(validChoice)
+        if not validMoves:
+            # no valid moves, this player loses
+            return None
         randomMoveChoice = random.choice(validMoves)
         self.selectedWorker = randomMoveChoice[0]
         return randomMoveChoice[1]
@@ -29,7 +35,4 @@ class RandomPlayer(Player):
         return directionToBuild
 
     def playMove(self, currBoard):
-        m = self.selectMove(currBoard)
-        # make sure there was a valid move (current player is not stuck and CAN move somewhere)
-        # maybe return None if no move options available and signal that this player has lost?
-        m.execute()
+        super().playMove(currBoard)

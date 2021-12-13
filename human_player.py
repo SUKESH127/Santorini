@@ -24,7 +24,10 @@ class HumanPlayer(Player):
         validMoves = self.selectedWorker.findAllMoves(board)
         directionToMove = input("Select direction to move\n")
         while directionToMove not in validMoves:
-            print(f'Cannot move {directionToMove}')
+            if directionToMove not in self.possibleDirections:
+                print("Not a valid direction")
+            else:
+                print(f'Cannot move {directionToMove}')
             directionToMove = input("Select direction to move\n")
         return directionToMove
 
@@ -32,7 +35,10 @@ class HumanPlayer(Player):
         validBuilds = self.selectedWorker.findAllBuilds(board, moveDir)
         directionToBuild = input("Select direction to build\n")
         while directionToBuild not in validBuilds:
-            print(f'Cannot build {directionToBuild}')
+            if directionToBuild not in self.possibleDirections:
+                print("Not a valid direction")
+            else:
+                print(f'Cannot build {directionToBuild}')
             directionToBuild = input("Select direction to build\n")
         return directionToBuild
 
@@ -43,6 +49,5 @@ class HumanPlayer(Player):
         return Move(self.selectedWorker, moveDir, buildDir, currBoard)
     
     def playMove(self, currBoard):
-        m = self.selectMove(currBoard)
-        m.execute()
+        super().playMove(currBoard)
 

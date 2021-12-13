@@ -18,7 +18,12 @@ class Player:
         self.possibleDirections = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
         
     def playMove(self, currBoard):
-        pass
+        m = self.selectMove(currBoard)
+        if not m:
+            # no valid moves, this player loses
+            return False
+        m.execute()
+        return True
 
     def selectMove(self, currBoard):
         return None

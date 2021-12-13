@@ -89,7 +89,13 @@ class Manager:
             self.board.printBoard()
             if self.enableScore:
                 self.board.printScore()
-            self.currentPlayer.playMove(self.board)
+            if self.currentPlayer.playMove(self.board) is False:
+                # current player wasn't able to make a move --> current player loses
+                if self.currentPlayer.color == 'white':
+                    print('blue has won')
+                else:
+                    print('white has won')
+                break
             self.switchPlayer()
 
 if __name__ == "__main__":
