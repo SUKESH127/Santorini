@@ -47,11 +47,11 @@ class Player:
         def getCenterScore(position):
             x, y = position[0], position[1]
             if x == 0 or x == 4 or y == 0 or y == 4:
-                return 2
+                return 0
             elif x == 1 or x == 3 or y == 1 or y == 3:
                 return 1
             else:
-                return 0
+                return 2
         # sum of the centers of the buildings a player's workers
         w1Position = self.w1.position
         w2Position = self.w2.position
