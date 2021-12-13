@@ -26,12 +26,14 @@ class Board:
         x, y = position[0], position[1]
         return self.board[y][x]
 
+    def getWorkerPositions(self):
+        positions = []
+        for worker in self.current_player.possibleWorkers:
+            workerData = (worker.name, worker.position)
+            positions.append(workerData)
+        return positions
+
     def moveWorker(self, worker, row, col):
-        # if worker in self.whiteWorkers:
-        #     self.whiteWorkers.remove(worker)
-        # elif worker in self.blueWorkers:
-        #     self.blueWorkers.remove(worker)
-        # self.board[row][col].assignworker(worker)
         pass
 
     def updateBoard(self):

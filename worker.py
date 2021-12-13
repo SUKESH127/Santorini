@@ -6,6 +6,20 @@ class Worker:
         self.color = color
         self.name = name
 
+    def getHeightScore(self, board):
+        x, y = self.position[0], self.position[1]
+        startSquare = board.getSquare([x, y])
+        return startSquare.level
+
+    def getCenterScore(self, board):
+        x, y = self.position[0], self.position[1]
+        if x == 0 or x == 4 or y == 0 or y == 4:
+            return 2
+        elif x == 1 or x == 3 or y == 1 or y == 3:
+            return 1
+        else:
+            return 0
+
     def validMove(self, board, intendedMove: List[int]):
         startX, startY = self.position[0], self.position[1]
         endX, endY = startX + intendedMove[0], startY + intendedMove[1]
