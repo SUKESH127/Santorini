@@ -1,10 +1,11 @@
 from typing import List
 
 class Worker:
-    def __init__(self, color: str, position: List):
+    def __init__(self, color: str, position: List, name: str):
         self.position = position
         self.color = color
         self.moves = []
+        self.name = name
 
     def validMove(self, board, intendedMove: List[int]):
         startX, startY = self.position[0], self.position[1]
