@@ -5,6 +5,7 @@ from typing import List
 from board_state import BoardState
 from factory import Factory
 from player import Player
+from history import History
 
 import sys
 class ProcessInput():
@@ -64,32 +65,33 @@ class Manager:
         self.whitePlayer = Factory().createPlayer("white", whitePlayerType)
         self.bluePlayer = Factory().createPlayer("blue", bluePlayerType)
         self.players = [self.whitePlayer, self.bluePlayer]
-        self.boardState = BoardState(self.players)
         self.currentPlayer = self.whitePlayer
         self.enableUndoRedo = enableUndoRedo
         self.enableScore = enableScore
+        self.history = History(BoardState(self.players))
+        self.currentBoardState = self.history.getCurrentBoardState()
 
     def undo(self):
-        #self.boardState.undo()
+        #self.currentBoardState.undo()
         pass
     
     def redo(self):
-        #self.boardState.redo()
+        #self.currentBoardState.redo()
         pass
 
     def save(self):
         pass
 
     def switchPlayer(self):
-        self.boardState.switchPlayer()
-        self.currentPlayer = self.boardState.current_player
+        self.currentBoardState.switchPlayer()
+        self.currentPlayer = self.currentBoardState.current_player
 
     def playGame(self):
-        while not self.boardState.checkGameOver():
-            self.boardState.printBoardState()
+        while not self.currentBoardState.checkGameOver():
+            self.currentBoardState.printScore(current_player)
             if self.enableScore:
-                self.boardState.printScore()
-            if self.currentPlayer.playMove(self.boardState) is False:
+                self.currentBoardState.printScore()
+            if self.currentPlayer.playMove(self.currentBoardState) is False:
                 # current player wasn't able to make a move --> current player loses
                 if self.currentPlayer.color == 'white':
                     print('blue has won')

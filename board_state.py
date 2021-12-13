@@ -4,9 +4,9 @@ class BoardState:
         self.board = []
         self.players = players
         self.current_player = players[0]
-        self.initialize_board()
+        self.initialize_boardState()
 
-    def initialize_board(self):
+    def initialize_boardState(self):
         self.board = []
         for i in range(5):
             row = []
@@ -14,13 +14,10 @@ class BoardState:
                 row.append(Square())
             self.board.append(row)
         
-        # assign white player's workers
-        self.board[3][1].assignWorker('A')
-        self.board[1][3].assignWorker('B')
-
-        # assign blue player's workers
-        self.board[1][1].assignWorker('Y')
-        self.board[3][3].assignWorker('Z')
+        # assign both players' workers
+        workers = [self.players[0].w1, self.players[0].w2, self.players[1].w1, self.players[1].w2]
+        for w in workers:
+            self.getSquare(w.position).assignWorker(w.name)
     
     def getSquare(self, position):
         x, y = position[0], position[1]
@@ -50,15 +47,17 @@ class BoardState:
             return True
         return False
 
-    def printScore(self):
-        #print(f'Player 1: {self.players[0].score}')
-        print("score")
+    def printScore(self, current_player):
+        if current_player.playerType == "heuristic":
+            current_player.printCurrentScore()
+        else:
+            return
     
-    def printBoard(self):
+    def printBoardState(self):
         print("+--+--+--+--+--+")
         for i in range(5):
             for j in range(5):
-                print(f'|{self.board[i][j]}', end='')
+                print(f'|{self.getSquare([j, i])}', end='')
             print("|\n+--+--+--+--+--+")
 
 class Square:
