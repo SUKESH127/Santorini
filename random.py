@@ -9,9 +9,9 @@ class Random(Player):
     def selectMove(self):
         moveDir = self.getMoveAndWorker(self.board)
         worker = self.selectedWorker
-        buildDir = self.getBuild(self.board)
-        print(f"{worker.name},{moveDir},{buildDir}")
-        return Move(worker, moveDir, buildDir)
+        buildDir = self.getBuild(self.board, moveDir[1])
+        print(f"{worker.name},{moveDir[0]},{buildDir}")
+        return Move(worker, moveDir[0], buildDir)
         
     def getMoveAndWorker(self, board):
         validMoves = []
@@ -23,7 +23,7 @@ class Random(Player):
         self.selectedWorker = randomMoveChoice[0]
         return randomMoveChoice[1]
 
-    def getBuild(self, board):
-        validBuilds = self.selectedWorker.findAllBuilds(board)
+    def getBuild(self, board, moveDir):
+        validBuilds = self.selectedWorker.findAllBuilds(board, moveDir)
         directionToBuild = random.choice(validBuilds)
         return directionToBuild

@@ -28,8 +28,8 @@ class Human(Player):
             directionToMove = input("Select direction to move\n")
         return directionToMove
 
-    def getBuild(self, board):
-        validBuilds = self.selectedWorker.findAllBuilds(board)
+    def getBuild(self, board, moveDir):
+        validBuilds = self.selectedWorker.findAllBuilds(board, moveDir)
         directionToBuild = input("Select direction to build\n")
         while directionToBuild not in validBuilds:
             print(f'Cannot build {directionToBuild}')
@@ -39,8 +39,8 @@ class Human(Player):
     def selectMove(self, currBoard):
         self.getWorker()
         moveDir = self.getMove(currBoard)
-        buildDir = self.getBuild(currBoard)
-        return Move(self.selectedWorker, moveDir, buildDir, currBoard)
+        buildDir = self.getBuild(currBoard, moveDir[1])
+        return Move(self.selectedWorker, moveDir[0], buildDir, currBoard)
     
     def playMove(self, currBoard):
         m = self.selectMove(currBoard)
