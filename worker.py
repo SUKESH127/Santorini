@@ -11,11 +11,11 @@ class Worker:
         endX, endY = startX + intendedMove[0], startY + intendedMove[1]
         if endX < 0 or endX > 4 or endY < 0 or endY > 4:
             return False
-        if board.board[endY][endX].hasWorker():
+        if board.getSquare(endX, endY).hasWorker():
             return False
-        if board.board[endY][endX].level > 1 + board.board[startY][startX]:
+        if board.getSquare(endX, endY).level > 1 + board.getSquare(startX, startY).level:
             return False
-        if board.board[endY][endX].canBuild():
+        if board.getSquare(endX, endY).canBuild():
             return True
         return False
 
@@ -33,9 +33,9 @@ class Worker:
         endX, endY = startX + intendedMove[0], startY + intendedMove[1]
         if endX < 0 or endX > 4 or endY < 0 or endY > 4:
             return False
-        if board.board[endY][endX].hasWorker():
+        if board.getSquare(endX, endY).hasWorker():
             return False
-        if board.board[endY][endX].canBuild():
+        if board.getSquare(endX, endY).canBuild():
             return True
         return False
 

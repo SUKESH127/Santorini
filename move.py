@@ -1,5 +1,4 @@
 from worker import Worker
-import numpy as np
 from board import Board
 
 class Move:
@@ -38,7 +37,7 @@ class Move:
     def updateLocation(self):
         # remove worker from old position
         x, y = self.startPosition[0], self.startPosition[1]
-        self.board[x][y].removeWorker()
+        self.board.getSquare([x, y]).removeWorker()
         # add worker to new position
         changeX, changeY = self.moveOperation[0], self.moveOperation[1]
         self.endPosition = [x + changeX, y + changeY]
