@@ -43,5 +43,6 @@ class HumanPlayer(Player):
         return Move(self.selectedWorker, moveDir, buildDir, currBoard)
     
     def playMove(self, currBoard):
-        super().playMove(currBoard)
+        m = self.selectMove(currBoard)
+        m.execute()
 

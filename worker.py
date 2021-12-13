@@ -46,9 +46,8 @@ class Worker:
         return validMoves
     
     def validBuild(self, board, intendedMove: List[int], intendedBuild: List[int]):
-        startX, startY = self.position[0], self.position[1]
-        targetX = startX + intendedMove[0] + intendedBuild[0]
-        targetY = startY + intendedMove[1] + intendedBuild[1]
+        targetX = self.position[0] + intendedMove[0] + intendedBuild[0]
+        targetY = self.position[1] + intendedMove[1] + intendedBuild[1]
 
         if targetX < 0 or targetX > 4 or targetY < 0 or targetY > 4:
             return False

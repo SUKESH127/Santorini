@@ -68,9 +68,6 @@ class Manager:
         self.currentPlayer = self.whitePlayer
         self.enableUndoRedo = enableUndoRedo
         self.enableScore = enableScore
-    
-    def printGameStatus(self):
-        print("Game over")
 
     def undo(self):
         #self.board.undo()
@@ -94,7 +91,6 @@ class Manager:
                 self.board.printScore()
             self.currentPlayer.playMove(self.board)
             self.switchPlayer()
-        self.printGameStatus()
 
 if __name__ == "__main__":
     ProcessInput(sys.argv)

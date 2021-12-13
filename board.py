@@ -24,6 +24,8 @@ class Board:
     
     def getSquare(self, position):
         x, y = position[0], position[1]
+        if x > 4 or y > 4 or x < 0 or x < 0:
+            print(f'x:{x}, y:{y}')
         return self.board[y][x]
 
     def getWorkerPositions(self):
@@ -43,6 +45,11 @@ class Board:
         self.current_player = self.players[1] if self.current_player == self.players[0] else self.players[0]
 
     def checkGameOver(self):
+        w1 = self.current_player.w1
+        w2 = self.current_player.w2
+        if w1.getHeightScore(self) == 3 or w2.getHeightScore(self) == 3:
+            print(f'{self.current_player.color} has won')
+            return True
         return False
 
     def printScore(self):
