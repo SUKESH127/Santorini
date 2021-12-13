@@ -1,8 +1,9 @@
 from worker import Worker
 import numpy as np
+from board import Board
 
 class Move:
-    def __init__(self, worker, moveDirection, buildDirection, board):
+    def __init__(self, worker: Worker, moveDirection: str, buildDirection: str, board: Board):
         self.worker = worker
         self.board = board
         self.moveOperation = self.convertMoveDirection(moveDirection)
@@ -42,7 +43,7 @@ class Move:
         changeX, changeY = self.moveOperation[0], self.moveOperation[1]
         self.endPosition = [x + changeX, y + changeY]
         endX, endY = self.endPosition[0], self.endPosition[1]
-        self.board[endX][endY].assign_worker(self.worker)
+        self.board.getSquare([endX, endY]).assign_worker(self.worker)
     
     def updateBuild(self):
         # get location to build
@@ -50,7 +51,7 @@ class Move:
         changeX, changeY = self.buildOperation[0], self.buildOperation[1]
         buildX, buildY = x + changeX, y + changeY
         # build new tile
-        self.board[buildX][buildY].build()
+        self.board.getSquare([buildX, buildY]).build()
 
 
 

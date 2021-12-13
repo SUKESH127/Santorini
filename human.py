@@ -14,18 +14,26 @@ class Human(Player):
                     print("That is not your worker\n")
                 else:
                     print("Not a valid worker\n")
-        #return self.selectedWorker
 
-    def getMove(self):
-        while self.directionToMove not in self.validMoves():
-            self.directionToMove = input("Select direction to move\n")
-            if self.directionToMove not in self.validMoves():
-                print("Not a valid direction\n")
-        #return self.directionToMove
+    def getMove(self, board):
+        validMoves = self.selectedWorker.findAllMoves(board)
+        directionToMove = input("Select direction to move\n")
+        while directionToMove not in validMoves:
+            print("Not a valid direction\n") # e.g. "cannot move ne"
+            directionToMove = input("Select direction to move\n")
+        return directionToMove
 
-    def getBuild(self):
-        while self.directionToBuild not in self.validBuilds():
-            self.directionToBuild = input("Select direction to build\n")
-            if self.directionToBuild not in self.validBuilds():
-                print("Not a valid direction\n")
-        #return self.directionToBuild
+    def getBuild(self, board):
+        validBuilds = self.selectedWorker.findAllBuilds(board)
+        directionToBuild = input("Select direction to build\n")
+        while directionToBuild not in validBuilds:
+            print("Not a valid direction\n") # e.g. "cannot build ne"
+            directionToBuild = input("Select direction to build\n")
+        return directionToBuild
+
+    def selectMove(self, board):
+        self.getWorker()
+        moveDir = self.getMove(board)
+        buildDir = self.getBuild(board)
+        return Move(self.selectedWorker, moveDir, buildDir)
+

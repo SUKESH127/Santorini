@@ -21,6 +21,10 @@ class Board:
         # assign blue player's workers
         self.board[1][1].assignworker('Y')
         self.board[3][3].assignworker('Z')
+    
+    def getSquare(self, position):
+        x, y = position[0], position[1]
+        return self.board[y][x]
 
     def moveWorker(self, worker, row, col):
         # if worker in self.whiteWorkers:

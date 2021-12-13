@@ -17,33 +17,11 @@ class Player:
         self.possibleDirections = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
         
     def playMove(self, currBoard):
-        self.getWorker()
-        self.getMoves()
-        self.getBuild()
-        self.executeMove()
+        m = self.selectMove()
+        m.executeMove()
 
-
-    def executeMove(self):
-        pass
-
-    def getWorker(self):
-        pass
-
-    def getMove(self):
-        pass
-
-    def getBuild(self):
-        pass
-    
-    def validMoves(self, worker):
-        moves = []
-        for i in range(-1, 1):
-            for j in range(-1, 1):
-                if ()
-        return [element for element in self.possibleMoves if element != "n"]
-
-    def validBuilds(self):
-        return [element for element in self.possibleBuilds if element != "n"]
+    def selectMove(self, currBoard):
+        return None
     
     def getWorkersString(self):
         return "AB" if self.color == "white" else "YZ"
