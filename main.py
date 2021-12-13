@@ -72,15 +72,13 @@ class Manager:
         self.currentBoardState = self.history.getCurrentBoardState()
 
     def undo(self):
-        #self.currentBoardState.undo()
-        pass
+        return self.history.moveBack()
     
     def redo(self):
-        #self.currentBoardState.redo()
-        pass
+        return self.history.moveForward()
 
     def save(self):
-        pass
+        self.history.backup(self.currentBoardState)
 
     def switchPlayer(self):
         self.currentBoardState.switchPlayer()
@@ -88,17 +86,29 @@ class Manager:
 
     def playGame(self):
         while not self.currentBoardState.checkGameOver():
-            self.currentBoardState.printScore(current_player)
-            if self.enableScore:
-                self.currentBoardState.printScore()
-            if self.currentPlayer.playMove(self.currentBoardState) is False:
-                # current player wasn't able to make a move --> current player loses
-                if self.currentPlayer.color == 'white':
-                    print('blue has won')
-                else:
-                    print('white has won')
-                break
-            self.switchPlayer()
+            # get current move type for player
+            moveType = input("undo, redo, or next\n")
+
+            # execute move type otherwise reprompt for valid move type
+            if (moveType == 'undo'):
+                if self.undo():
+                    self.currentBoardState.printBoardState()
+            elif (moveType == 'redo'):
+                if self.redo():
+                    self.currentBoardState.printBoardState()
+            elif (moveType == 'next'):
+                self.currentBoardState.printBoardState()
+                if self.enableScore:
+                    self.currentBoardState.printScore(self.currentPlayer)
+                if self.currentPlayer.playMove(self.currentBoardState) is False:
+                    # current player wasn't able to make a move --> current player loses
+                    if self.currentPlayer.color == 'white':
+                        print('blue has won')
+                    else:
+                        print('white has won')
+                    break
+                self.switchPlayer()
+                self.save()
 
 if __name__ == "__main__":
     ProcessInput(sys.argv)
