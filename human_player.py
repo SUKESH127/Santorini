@@ -1,5 +1,5 @@
 from move import Move
-from board import Board
+from board_state import BoardState
 from player import Player
 
 class HumanPlayer(Player):
@@ -20,8 +20,8 @@ class HumanPlayer(Player):
             self.selectedWorker = self.w2
 
 
-    def getMove(self, board):
-        validMoves = self.selectedWorker.findAllMoves(board)
+    def getMove(self, boardState):
+        validMoves = self.selectedWorker.findAllMoves(boardState)
         directionToMove = input("Select direction to move\n")
         while directionToMove not in validMoves:
             if directionToMove not in self.possibleDirections:
@@ -31,8 +31,8 @@ class HumanPlayer(Player):
             directionToMove = input("Select direction to move\n")
         return directionToMove
 
-    def getBuild(self, board, moveDir):
-        validBuilds = self.selectedWorker.findAllBuilds(board, moveDir)
+    def getBuild(self, boardState, moveDir):
+        validBuilds = self.selectedWorker.findAllBuilds(boardState, moveDir)
         directionToBuild = input("Select direction to build\n")
         while directionToBuild not in validBuilds:
             if directionToBuild not in self.possibleDirections:
@@ -42,12 +42,12 @@ class HumanPlayer(Player):
             directionToBuild = input("Select direction to build\n")
         return directionToBuild
 
-    def selectMove(self, currBoard):
+    def selectMove(self, currBoardState):
         self.getWorker()
-        moveDir = self.getMove(currBoard)
-        buildDir = self.getBuild(currBoard, moveDir)
-        return Move(self.selectedWorker, moveDir, buildDir, currBoard)
+        moveDir = self.getMove(currBoardState)
+        buildDir = self.getBuild(currBoardState, moveDir)
+        return Move(self.selectedWorker, moveDir, buildDir, currBoardState)
     
-    def playMove(self, currBoard):
-        super().playMove(currBoard)
+    def playMove(self, currBoardState):
+        super().playMove(currBoardState)
 

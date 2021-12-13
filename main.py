@@ -2,7 +2,7 @@
 import sys
 from typing import List
 
-from board import Board
+from board_state import BoardState
 from factory import Factory
 from player import Player
 
@@ -64,32 +64,32 @@ class Manager:
         self.whitePlayer = Factory().createPlayer("white", whitePlayerType)
         self.bluePlayer = Factory().createPlayer("blue", bluePlayerType)
         self.players = [self.whitePlayer, self.bluePlayer]
-        self.board = Board(self.players)
+        self.boardState = BoardState(self.players)
         self.currentPlayer = self.whitePlayer
         self.enableUndoRedo = enableUndoRedo
         self.enableScore = enableScore
 
     def undo(self):
-        #self.board.undo()
+        #self.boardState.undo()
         pass
     
     def redo(self):
-        #self.board.redo()
+        #self.boardState.redo()
         pass
 
     def save(self):
         pass
 
     def switchPlayer(self):
-        self.board.switchPlayer()
-        self.currentPlayer = self.board.current_player
+        self.boardState.switchPlayer()
+        self.currentPlayer = self.boardState.current_player
 
     def playGame(self):
-        while not self.board.checkGameOver():
-            self.board.printBoard()
+        while not self.boardState.checkGameOver():
+            self.boardState.printBoardState()
             if self.enableScore:
-                self.board.printScore()
-            if self.currentPlayer.playMove(self.board) is False:
+                self.boardState.printScore()
+            if self.currentPlayer.playMove(self.boardState) is False:
                 # current player wasn't able to make a move --> current player loses
                 if self.currentPlayer.color == 'white':
                     print('blue has won')

@@ -1,5 +1,5 @@
 
-class Board:
+class BoardState:
     def __init__(self, players):
         self.board = []
         self.players = players
@@ -24,8 +24,6 @@ class Board:
     
     def getSquare(self, position):
         x, y = position[0], position[1]
-        if x > 4 or y > 4 or x < 0 or x < 0:
-            print(f'x:{x}, y:{y}')
         return self.board[y][x]
 
     def getWorkerPositions(self):

@@ -17,8 +17,8 @@ class Player:
         self.possibleWorkers = ["A", "B"] if color == "white" else ["Y", "Z"]
         self.possibleDirections = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
         
-    def playMove(self, currBoard):
-        m = self.selectMove(currBoard)
+    def playMove(self, currBoardState):
+        m = self.selectMove(currBoardState)
         if not m:
             # no valid moves, this player loses
             return False

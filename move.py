@@ -1,10 +1,10 @@
 from worker import Worker
-from board import Board
+from board_state import BoardState
 
 class Move:
-    def __init__(self, worker: Worker, moveDirection: str, buildDirection: str, board: Board):
+    def __init__(self, worker: Worker, moveDirection: str, buildDirection: str, boardState: BoardState):
         self.worker = worker
-        self.board = board
+        self.boardState = boardState
         self.moveOperation = self.convertCardinalDirection(moveDirection)
         self.buildOperation = self.convertCardinalDirection(buildDirection)
         self.startPosition = self.worker.position
@@ -17,11 +17,11 @@ class Move:
     def updateLocation(self):
         # remove worker from old position
         x, y = self.startPosition[0], self.startPosition[1]
-        self.board.getSquare([x, y]).removeWorker()
+        self.boardState.getSquare([x, y]).removeWorker()
         # add worker to new position
         changeX, changeY = self.moveOperation[0], self.moveOperation[1]
         self.endPosition = [x + changeX, y + changeY]
-        self.board.getSquare(self.endPosition).assignWorker(self.worker.name)
+        self.boardState.getSquare(self.endPosition).assignWorker(self.worker.name)
         # update worker position
         self.worker.position = self.endPosition
     
@@ -30,7 +30,7 @@ class Move:
         x, y = self.endPosition[0], self.endPosition[1]
         changeX, changeY = self.buildOperation[0], self.buildOperation[1]
         # build new tile
-        self.board.getSquare([x + changeX, y + changeY]).build()
+        self.boardState.getSquare([x + changeX, y + changeY]).build()
     
     def convertCardinalDirection(self, direction):
         convertedDirection = [0, 0]
