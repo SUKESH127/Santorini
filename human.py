@@ -3,7 +3,7 @@ from board import Board
 from player import Player
 
 class Human(Player):
-     def __init__(self, color: str):
+    def __init__(self, color: str):
         super().__init__(self, "Human", color)      
         
     def getWorker(self):
