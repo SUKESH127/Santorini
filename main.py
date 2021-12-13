@@ -68,9 +68,6 @@ class Manager:
         self.currentPlayer = self.whitePlayer
         self.enableUndoRedo = enableUndoRedo
         self.enableScore = enableScore
-        print(self.whitePlayer)
-        print(self.bluePlayer)
-
     
     def printGameStatus(self):
         print("Game over")

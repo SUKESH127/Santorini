@@ -4,10 +4,9 @@ from worker import Worker
 
 class Player:
 
-    def __init__(self, playerType, color: str, name: str):
+    def __init__(self, playerType, color: str):
         self.playerType = playerType
         self.color = color
-        self.name = name
         if color == "white":
             self.w1 = Worker(self.color, [1, 3], "A")
             self.w2 = Worker(self.color, [3, 1], "B")
@@ -21,7 +20,7 @@ class Player:
     def playMove(self, currBoard):
         pass
         # m = self.selectMove(currBoard)
-        # m.executeMove()
+        # m.execute()
 
     def selectMove(self, currBoard):
         return None

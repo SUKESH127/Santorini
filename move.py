@@ -42,7 +42,7 @@ class Move:
         changeX, changeY = self.moveOperation[0], self.moveOperation[1]
         self.endPosition = [x + changeX, y + changeY]
         endX, endY = self.endPosition[0], self.endPosition[1]
-        self.board.getSquare([endX, endY]).assign_worker(self.worker)
+        self.board.getSquare([endX, endY]).assignWorker(self.worker.name)
     
     def updateBuild(self):
         # get location to build

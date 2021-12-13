@@ -7,13 +7,18 @@ class Human(Player):
         super().__init__("human", color)      
         
     def getWorker(self):
-        while self.selectedWorker not in self.possibleWorkers:
-            self.selectedWorker = input("Select worker to move\n")
-            if self.selectedWorker not in self.possibleWorkers:
-                if self.selectedWorker in ['A', 'B'] or self.selectedWorker in ['Y', 'Z']:
-                    print("That is not your worker")
-                else:
-                    print("Not a valid worker")
+        w = input("Select worker to move\n")
+        while w not in self.possibleWorkers:
+            if w in ['A', 'B'] or w in ['Y', 'Z']:
+                print("That is not your worker")
+            else:
+                print("Not a valid worker")
+            w = input("Select worker to move\n")
+        if w == 'A' or w == 'Y':
+            self.selectedWorker = self.w1
+        else:
+            self.selectedWorker = self.w2
+
 
     def getMove(self, board):
         validMoves = self.selectedWorker.findAllMoves(board)
@@ -27,7 +32,7 @@ class Human(Player):
         validBuilds = self.selectedWorker.findAllBuilds(board)
         directionToBuild = input("Select direction to build\n")
         while directionToBuild not in validBuilds:
-            print(f'Cannot build {directionToMove}')
+            print(f'Cannot build {directionToBuild}')
             directionToBuild = input("Select direction to build\n")
         return directionToBuild
 
@@ -39,5 +44,5 @@ class Human(Player):
     
     def playMove(self, currBoard):
         m = self.selectMove(currBoard)
-        m.executeMove()
+        m.execute()
 
