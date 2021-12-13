@@ -8,51 +8,59 @@ class HeuristicPlayer(Player):
 
     def selectMove(self, currBoardState):
         validMoves = self.generateValidMoves(currBoardState)
+        if not validMoves:
+            return None
+        
         bestMove = self.pickBestMove(validMoves)
-        return bestMove
+        moveScore, moveDir, self.selectedWorker = bestMove[0], bestMove[1], bestMove[2]
+        buildDir = self.getBuild(currBoardState, moveDir)
+        return Move(self.selectedWorker, moveDir, buildDir, currBoardState)
+    
+    def getBuild(self, boardState, moveDir):
+        validBuilds = self.selectedWorker.findAllBuilds(boardState, moveDir)
+        directionToBuild = random.choice(validBuilds)
+        return directionToBuild
     
     def playMove(self, currBoardState):
         super().playMove(currBoardState)
 
     def generateValidMoves(self, currBoardState):
-        def computeMoveScore(height, center, distance):
-            if height == 3:
-                return float('inf')
-            return (3 * height) + (2 * center) + (distance)
-
         moveCandidates = []
         currentPlayer = currBoardState.current_player
         opponent = currBoardState.players[1] if (currBoardState.current_player == currBoardState.players[0]) else currBoardState.players[0]
-        validMoves = self.selectedWorker.findAllMoves(currBoardState)
-        for moveDirection in validMoves:
-            # create move object and position associated with it
-            newMove = Move(self.selectedWorker, moveDirection, "n", currBoardState)
-            changeX, changeY = newMove.moveOperation[0], newMove.moveOperation[1]
-            newMove.endPosition = [newMove.startPosition[0] + changeX, newMove.startPosition[1] + changeY]
-            # compute height, distance, and center scores
-            heightScore = self.computeHeightScore(currBoardState, newMove.endPosition)
-            centerScore = self.computeCenterScore(currBoardState, newMove.endPosition)
-            distanceScore = self.computeDistanceScore(currentPlayer, opponent, newMove.endPosition)
-            # get move score
-            newMoveScore = computeMoveScore(heightScore, centerScore, distanceScore)
-            # add move candidate to list of moves
-            moveCandidate = (newMoveScore, newMove)
-            moveCandidates.append(moveCandidate)
+        # get all moves for current player's workers
+        workers = [currentPlayer.w1, currentPlayer.w2]
+        for w in workers:
+            validMoves = w.findAllMoves(currBoardState)
+            for moveDirection in validMoves:
+                moveValue = self.convertCardinalDirection(moveDirection)
+                finalX = w.position[0] + moveValue[0]
+                finalY = w.position[1] + moveValue[1]
+                finalPosition = [finalX, finalY]
+                # compute move score
+                totalMoveScore = self.computeMoveScore(currBoardState, finalPosition, currentPlayer, opponent)
+                # add move candidate to list of moves
+                moveCandidate = (newMoveScore, moveDirection, w)
+                moveCandidates.append(moveCandidate)
         return moveCandidates
     
+    def computeMoveScore(boardState, position, currentPlayer, opponent):
+        height = self.computeHeightScore(boardState, position)
+        center = self.computeCenterScore(boardState, position)
+        distance = self.computeDistanceScore(currentPlayer, opponent, position)
+        if height == 3:
+                return float('inf')
+        return (3 * height) + (2 * center) + (distance)
+
     def pickBestMove(self, possibleMoves):
-        def breakTies(tiedMoves):
-            if tiedMoves:
-                return random.choice(tiedMoves)
-            else:
-                return None
         ties = []
         possibleMoves.sort(reverse=True)
         bestMoveScore = possibleMoves[0][0]
         for move in possibleMoves:
             if move[0] == bestMoveScore:
                 ties.append(move)
-        return breakTies(ties)[1]
+
+        return random.choice(ties)
 
     def computeHeightScore(self, currBoardState, position):
         def getHeightScore(currBoardState, position):
@@ -109,7 +117,23 @@ class HeuristicPlayer(Player):
         # compute distance score
         distanceScore = distancePlayerToOpponent(currentPlayerPositions, opponentPositions)
         return distanceScore
-
-    def getCurrentScore(self):
-        print("getCurrentScore")
-        return f"{self.heightScore}, {self.centerScore}, {self.distanceScore}"
+    
+    def convertCardinalDirection(self, direction):
+        convertedDirection = [0, 0]
+        if direction == 'n':
+            convertedDirection = [0, -1]
+        elif direction == 's':
+            convertedDirection = [0, 1]
+        elif direction == 'e':
+            convertedDirection = [1, 0]
+        elif direction == 'w':
+            convertedDirection = [-1, 0]
+        elif direction == 'ne':
+            convertedDirection = [1, -1]
+        elif direction == 'nw':
+            convertedDirection = [-1, -1]
+        elif direction == 'se':
+            convertedDirection = [1, 1]
+        elif direction == 'sw':
+            convertedDirection = [-1, 1]
+        return convertedDirection
