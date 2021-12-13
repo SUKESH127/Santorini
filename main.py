@@ -91,12 +91,12 @@ class Manager:
             # execute move type otherwise reprompt for valid move type
             if (moveType == 'undo'):
                 if self.undo():
-                    self.currentBoardState.printBoardState()
                     self.turnCount -= 1
+                self.currentBoardState.printBoardState()
             elif (moveType == 'redo'):
                 if self.redo():
-                    self.currentBoardState.printBoardState()
                     self.turnCount += 1
+                self.currentBoardState.printBoardState()
             elif (moveType == 'next'):
                 self.currentBoardState.printBoardState()
                 print(f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})')
