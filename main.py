@@ -100,14 +100,10 @@ class Manager:
             elif (moveType == 'next'):
                 self.currentBoardState.printBoardState()
                 turnString = f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})'
-                #print(f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})')
-                if self.currentPlayer.playerType == "heuristic":
-                    turnString += self.currentPlayer.getCurrentScore()
+                if self.enableScore:
+                    turnString += self.currentPlayer.getCurrentScore(self.currentBoardState)
                 print(turnString)
                 self.turnCount += 1
-
-                if self.enableScore:
-                    self.currentBoardState.printScore(self.currentPlayer)
                 if self.currentPlayer.playMove(self.currentBoardState) is False:
                     # current player wasn't able to make a move --> current player loses
                     if self.currentPlayer.color == 'white':
