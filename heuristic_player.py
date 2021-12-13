@@ -20,9 +20,6 @@ class HeuristicPlayer(Player):
         validBuilds = self.selectedWorker.findAllBuilds(boardState, moveDir)
         directionToBuild = random.choice(validBuilds)
         return directionToBuild
-    
-    def playMove(self, currBoardState):
-        super().playMove(currBoardState)
 
     def generateValidMoves(self, currBoardState):
         moveCandidates = []
@@ -117,6 +114,12 @@ class HeuristicPlayer(Player):
         # compute distance score
         distanceScore = distancePlayerToOpponent(currentPlayerPositions, opponentPositions)
         return distanceScore
+    
+    def playMove(self, currBoardState):
+        super().playMove(currBoardState)
+    
+    def getCurrentScore(self, currBoardState):
+        super().getCurrentScore(currBoardState)
     
     def convertCardinalDirection(self, direction):
         convertedDirection = [0, 0]

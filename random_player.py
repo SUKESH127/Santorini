@@ -36,3 +36,6 @@ class RandomPlayer(Player):
 
     def playMove(self, currBoardState):
         super().playMove(currBoardState)
+    
+    def getCurrentScore(self, currBoardState):
+        super().getCurrentScore(currBoardState)
