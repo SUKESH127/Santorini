@@ -9,7 +9,7 @@ class Random(Player):
     def selectMove(self):
         moveDir = self.getMoveAndWorker(self.board)
         worker = self.selectedWorker
-        buildDir = self.getBuild(self.board, moveDir[1])
+        buildDir = self.getBuild(self.board, moveDir)
         print(f"{worker.name},{moveDir[0]},{buildDir}")
         return Move(worker, moveDir[0], buildDir)
         

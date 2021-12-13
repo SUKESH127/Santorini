@@ -85,6 +85,7 @@ class Manager:
 
     def switchPlayer(self):
         self.board.switchPlayer()
+        self.currentPlayer = self.board.current_player
 
     def playGame(self):
         while not self.board.checkGameOver():

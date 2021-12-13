@@ -5,8 +5,8 @@ class Move:
     def __init__(self, worker: Worker, moveDirection: str, buildDirection: str, board: Board):
         self.worker = worker
         self.board = board
-        self.moveOperation = self.convertMoveDirection(moveDirection)
-        self.buildOperation = self.convertMoveDirection(buildDirection)
+        self.moveOperation = self.convertCardinalDirection(moveDirection)
+        self.buildOperation = self.convertCardinalDirection(buildDirection)
         self.startPosition = self.worker.position
         self.endPosition = [0, 0]
 
@@ -14,7 +14,7 @@ class Move:
         self.updateLocation()
         self.updateBuild()
 
-    def convertMoveDirection(self, direction):
+    def convertCardinalDirection(self, direction):
         convertedDirection = [0, 0]
         if direction == 'n':
             convertedDirection = [0, -1]

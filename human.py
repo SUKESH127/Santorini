@@ -39,8 +39,8 @@ class Human(Player):
     def selectMove(self, currBoard):
         self.getWorker()
         moveDir = self.getMove(currBoard)
-        buildDir = self.getBuild(currBoard, moveDir[1])
-        return Move(self.selectedWorker, moveDir[0], buildDir, currBoard)
+        buildDir = self.getBuild(currBoard, moveDir)
+        return Move(self.selectedWorker, moveDir, buildDir, currBoard)
     
     def playMove(self, currBoard):
         m = self.selectMove(currBoard)
