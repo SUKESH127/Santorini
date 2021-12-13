@@ -2,14 +2,14 @@ from player import Player
 from move import Move
 import random
 
-class Random(Player):
+class RandomPlayer(Player):
     def __init__(self, color: str):
-        super().__init__(self, "random", color)   
+        super().__init__("random", color)   
 
-    def selectMove(self):
-        moveDir = self.getMoveAndWorker(self.board)
+    def selectMove(self, currBoard):
+        moveDir = self.getMoveAndWorker(currBoard)
         worker = self.selectedWorker
-        buildDir = self.getBuild(self.board, moveDir)
+        buildDir = self.getBuild(currBoard, moveDir)
         print(f"{worker.name},{moveDir[0]},{buildDir}")
         return Move(worker, moveDir[0], buildDir)
         
@@ -27,3 +27,6 @@ class Random(Player):
         validBuilds = self.selectedWorker.findAllBuilds(board, moveDir)
         directionToBuild = random.choice(validBuilds)
         return directionToBuild
+    
+    def playMove(self, currBoard):
+        super().playMove(currBoard)

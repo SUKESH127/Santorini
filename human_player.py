@@ -2,7 +2,7 @@ from move import Move
 from board import Board
 from player import Player
 
-class Human(Player):
+class HumanPlayer(Player):
     def __init__(self, color: str):
         super().__init__("human", color)      
         
@@ -43,6 +43,5 @@ class Human(Player):
         return Move(self.selectedWorker, moveDir, buildDir, currBoard)
     
     def playMove(self, currBoard):
-        m = self.selectMove(currBoard)
-        m.execute()
+        super().playMove(currBoard)
 

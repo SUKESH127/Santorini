@@ -18,9 +18,8 @@ class Player:
         self.possibleDirections = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
         
     def playMove(self, currBoard):
-        pass
-        # m = self.selectMove(currBoard)
-        # m.execute()
+        m = self.selectMove(currBoard)
+        m.execute()
 
     def selectMove(self, currBoard):
         return None

@@ -1,6 +1,6 @@
-from human import Human
-from heuristic import Heuristic
-from random import Random
+from human_player import HumanPlayer
+from heuristic_player import HeuristicPlayer
+from random_player import RandomPlayer
 
 class Factory:
     def __init__(self):
@@ -8,9 +8,9 @@ class Factory:
     
     def createPlayer(self, color, playerType):
         if playerType == 'human':
-            return Human(color)
+            return HumanPlayer(color)
         elif playerType == 'heuristic':
-            return Heuristic(color)
+            return HeuristicPlayer(color)
         elif playerType == 'random':
-            return Random(color)
+            return RandomPlayer(color)
         return None

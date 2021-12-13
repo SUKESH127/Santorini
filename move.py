@@ -14,6 +14,24 @@ class Move:
         self.updateLocation()
         self.updateBuild()
 
+    def updateLocation(self):
+        # remove worker from old position
+        x, y = self.startPosition[0], self.startPosition[1]
+        self.board.getSquare([x, y]).removeWorker()
+        # add worker to new position
+        changeX, changeY = self.moveOperation[0], self.moveOperation[1]
+        self.endPosition = [x + changeX, y + changeY]
+        self.board.getSquare(self.endPosition).assignWorker(self.worker.name)
+        # update worker position
+        self.worker.position = self.endPosition
+    
+    def updateBuild(self):
+        # get location to build
+        x, y = self.endPosition[0], self.endPosition[1]
+        changeX, changeY = self.buildOperation[0], self.buildOperation[1]
+        # build new tile
+        self.board.getSquare([x + changeX, y + changeY]).build()
+    
     def convertCardinalDirection(self, direction):
         convertedDirection = [0, 0]
         if direction == 'n':
@@ -33,24 +51,6 @@ class Move:
         elif direction == 'sw':
             convertedDirection = [-1, 1]
         return convertedDirection
-
-    def updateLocation(self):
-        # remove worker from old position
-        x, y = self.startPosition[0], self.startPosition[1]
-        self.board.getSquare([x, y]).removeWorker()
-        # add worker to new position
-        changeX, changeY = self.moveOperation[0], self.moveOperation[1]
-        self.endPosition = [x + changeX, y + changeY]
-        endX, endY = self.endPosition[0], self.endPosition[1]
-        self.board.getSquare([endX, endY]).assignWorker(self.worker.name)
-    
-    def updateBuild(self):
-        # get location to build
-        x, y = self.endPosition[0], self.endPosition[1]
-        changeX, changeY = self.buildOperation[0], self.buildOperation[1]
-        buildX, buildY = x + changeX, y + changeY
-        # build new tile
-        self.board.getSquare([buildX, buildY]).build()
 
 
 
