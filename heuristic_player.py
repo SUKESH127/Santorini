@@ -1,4 +1,3 @@
-from typing import List
 from player import Player
 from move import Move
 import random
@@ -40,7 +39,7 @@ class HeuristicPlayer(Player):
             moveCandidates.append(moveCandidate)
         return moveCandidates
     
-    def pickBestMove(self, possibleMoves: List[(float, Move)]):
+    def pickBestMove(self, possibleMoves):
         def breakTies(tiedMoves):
             if tiedMoves:
                 return random.choice(tiedMoves)
