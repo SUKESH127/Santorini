@@ -14,7 +14,7 @@ class Player:
             self.w1 = Worker(self.color, [1, 1])
             self.w2 = Worker(self.color, [3, 3])
         self.selectedWorker = None
-        self.possibleWorkers = ["A", "B"] if color == "white" else ["A", "B"]
+        self.possibleWorkers = ["A", "B"] if color == "white" else ["Y", "Z"]
         self.possibleDirections = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
         
     def playMove(self, currBoard):
