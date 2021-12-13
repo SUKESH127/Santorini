@@ -99,7 +99,11 @@ class Manager:
                 self.currentBoardState.printBoardState()
             elif (moveType == 'next'):
                 self.currentBoardState.printBoardState()
-                print(f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})')
+                turnString = f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})'
+                #print(f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})')
+                if self.currentPlayer.playerType == "heuristic":
+                    turnString += self.currentPlayer.getCurrentScore()
+                print(turnString)
                 self.turnCount += 1
 
                 if self.enableScore:

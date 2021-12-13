@@ -19,6 +19,7 @@ class HeuristicPlayer(Player):
             if height == 3:
                 return float('inf')
             return (3 * height) + (2 * center) + (distance)
+
         moveCandidates = []
         currentPlayer = currBoardState.current_player
         opponent = currBoardState.players[1] if (currBoardState.current_player == currBoardState.players[0]) else currBoardState.players[0]
@@ -46,7 +47,7 @@ class HeuristicPlayer(Player):
             else:
                 return None
         ties = []
-        possibleMoves.sort(key=self.calculateMoveScore, reverse=True)
+        possibleMoves.sort(reverse=True)
         bestMoveScore = possibleMoves[0][0]
         for move in possibleMoves:
             if move[0] == bestMoveScore:
@@ -58,6 +59,7 @@ class HeuristicPlayer(Player):
             x, y = position[0], position[1]
             square = currBoardState.getSquare([x, y])
             return square.level
+
         # sum of the heights of the buildings a player's workers
         movedWorkerHeight = getHeightScore(currBoardState, position)
         otherWorker = self.possibleWorkers[0] if self.selectedWorker == self.possibleWorkers[1] else self.possibleWorkers[1]
@@ -73,6 +75,7 @@ class HeuristicPlayer(Player):
                 return 1
             else:
                 return 0
+
         movedWorkerCenter = getCenterScore(currBoardState, position)
         otherWorker = self.possibleWorkers[0] if self.selectedWorker == self.possibleWorkers[1] else self.possibleWorkers[1]
         otherWorkerCenter = otherWorker.getCenterScore(currBoardState, position)
@@ -85,10 +88,12 @@ class HeuristicPlayer(Player):
                 x2, y2 = worker2Position[0], worker2Position[1]
                  # distance between two workers
                 return max(abs(x1 - x2), abs(y1 - y2))
+
             # compute min distances between currentPlayer's workers and Opponents workers
             distOpp1 = min(getDistanceBetweenPlayers(opponentPositions[0], currentPlayerPositions[0]), getDistanceBetweenPlayers(opponentPositions[0], currentPlayerPositions[0]))
             distOpp2 = min(getDistanceBetweenPlayers(opponentPositions[1], currentPlayerPositions[0]), getDistanceBetweenPlayers(opponentPositions[1], currentPlayerPositions[0]))
             return distOpp1 + distOpp2
+
         # get current Player and opponent 
         currentPlayer = currBoardState.current_player
         opponent = currBoardState.players[1] if (currBoardState.current_player == currBoardState.players[0]) else currBoardState.players[0]
@@ -105,5 +110,6 @@ class HeuristicPlayer(Player):
         distanceScore = distancePlayerToOpponent(currentPlayerPositions, opponentPositions)
         return distanceScore
 
-    def printCurrentScore(self):
-        print(f"{self.heightScore}, {self.centerScore}, {self.distanceScore}")
+    def getCurrentScore(self):
+        print("getCurrentScore")
+        return f"{self.heightScore}, {self.centerScore}, {self.distanceScore}"
