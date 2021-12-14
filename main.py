@@ -82,10 +82,12 @@ class Manager:
 
     def save(self):
         self.history.backup(BoardState(self.players, self.boardState))
-        # for b in self.history.mementos:
-        #     print("MEMENTO BOARD STATE")
-        #     b.printBoardState()
-        #     print("$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$")
+        for b in self.history.mementos:
+            b.printBoardState()
+        print("$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$")
 
     def switchPlayer(self):
         if self.turnCount % 2 == 1:
@@ -100,7 +102,6 @@ class Manager:
                 moveType = input("undo, redo, or next\n")
             else:
                 moveType = "next"
-
             # execute move type otherwise reprompt for valid move type
             if (moveType == 'undo'):
                 if self.undo():
