@@ -96,7 +96,7 @@ class HeuristicPlayer(Player):
             # compute min distances between currentPlayer's workers and Opponents workers
             distOpp1 = min(getDistanceBetweenPlayers(opponentPositions[0], currentPlayerPositions[0]), getDistanceBetweenPlayers(opponentPositions[0], currentPlayerPositions[0]))
             distOpp2 = min(getDistanceBetweenPlayers(opponentPositions[1], currentPlayerPositions[0]), getDistanceBetweenPlayers(opponentPositions[1], currentPlayerPositions[0]))
-            return distOpp1 + distOpp2
+            return 8 - (distOpp1 + distOpp2)
 
         # get current Player and opponent 
         opponent = currBoardState.players[1] if (currentPlayer == currBoardState.players[0]) else currBoardState.players[0]
