@@ -42,15 +42,15 @@ class HumanPlayer(Player):
             directionToBuild = input("Select direction to build\n")
         return directionToBuild
 
-    def selectMove(self, currBoardState):
+    def selectMove(self, boardState):
         self.getWorker()
-        moveDir = self.getMove(currBoardState)
-        buildDir = self.getBuild(currBoardState, moveDir)
-        return Move(self.selectedWorker, moveDir, buildDir, currBoardState)
+        moveDir = self.getMove(boardState)
+        buildDir = self.getBuild(boardState, moveDir)
+        return Move(self.selectedWorker, moveDir, buildDir, boardState)
     
-    def playMove(self, currBoardState):
-        return super().playMove(currBoardState)
+    def playMove(self, boardState):
+        return super().playMove(boardState)
     
-    def getCurrentScore(self, currBoardState):
-        return super().getCurrentScore(currBoardState)
+    def getCurrentScore(self, boardState):
+        return super().getCurrentScore(boardState)
 

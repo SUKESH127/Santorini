@@ -20,30 +20,30 @@ class Player:
         self.centerScore = 0
         self.distanceScore = 0
         
-    def playMove(self, currBoardState):
-        m = self.selectMove(currBoardState)
+    def playMove(self, boardState):
+        m = self.selectMove(boardState)
         if not m:
             # no valid moves, this player loses
             return False
         m.execute()
         return True
 
-    def selectMove(self, currBoard):
+    def selectMove(self, boardState):
         return None
     
-    def getTotalHeightScore(self, currBoardState):
-        def getHeightScore(currBoardState, position):
-            square = currBoardState.getSquare(position)
+    def getTotalHeightScore(self, boardState):
+        def getHeightScore(boardState, position):
+            square = boardState.getSquare(position)
             return square.level
 
         # sum of the heights of the buildings a player's workers
         w1Position = self.w1.position
         w2Position = self.w2.position
-        w1Height = getHeightScore(currBoardState, w1Position)
-        w2Height = getHeightScore(currBoardState, w2Position)
+        w1Height = getHeightScore(boardState, w1Position)
+        w2Height = getHeightScore(boardState, w2Position)
         self.heightScore = w1Height + w2Height
 
-    def getTotalCenterScore(self, currBoardState):
+    def getTotalCenterScore(self, boardState):
         def getCenterScore(position):
             x, y = position[0], position[1]
             if x == 0 or x == 4 or y == 0 or y == 4:
@@ -59,7 +59,7 @@ class Player:
         w2Center = getCenterScore(w2Position)
         self.centerScore = w1Center + w2Center
 
-    def getTotalDistanceScore(self, currBoardState):
+    def getTotalDistanceScore(self, boardState):
         def distancePlayerToOpponent(currentPlayerPositions, opponentPositions):            
             def getDistanceBetweenPlayers(worker1Position, worker2Position):
                 x1, y1 = worker1Position[0], worker1Position[1]
@@ -74,12 +74,12 @@ class Player:
             return 8 - (distOpp1 + distOpp2)
 
         currentPlayerPositions = [self.w1.position, self.w2.position] # [[x, y], [x, y]]
-        opponent = currBoardState.players[1] if (currBoardState.currentPlayer == currBoardState.players[0]) else currBoardState.players[0]
+        opponent = boardState.players[1] if (self == boardState.players[0]) else boardState.players[0]
         opponentPositions = [opponent.w1.position, opponent.w2.position] # [[x, y], [x, y]]
         self.distanceScore = distancePlayerToOpponent(currentPlayerPositions, opponentPositions)
 
-    def getCurrentScore(self, currBoardState):
-        self.getTotalHeightScore(currBoardState)
-        self.getTotalCenterScore(currBoardState)
-        self.getTotalDistanceScore(currBoardState)
+    def getCurrentScore(self, boardState):
+        self.getTotalHeightScore(boardState)
+        self.getTotalCenterScore(boardState)
+        self.getTotalDistanceScore(boardState)
         return f", ({self.heightScore}, {self.centerScore}, {self.distanceScore})"

@@ -6,15 +6,15 @@ class RandomPlayer(Player):
     def __init__(self, color: str):
         super().__init__("random", color)   
 
-    def selectMove(self, currBoardState):
-        moveDir = self.getMoveAndWorker(currBoardState)
+    def selectMove(self, boardState):
+        moveDir = self.getMoveAndWorker(boardState)
         if not moveDir:
             # no valid moves, this player loses
             return None
         worker = self.selectedWorker
-        buildDir = self.getBuild(currBoardState, moveDir)
+        buildDir = self.getBuild(boardState, moveDir)
         print(f"{worker.name},{moveDir},{buildDir}")
-        return Move(worker, moveDir, buildDir, currBoardState)
+        return Move(worker, moveDir, buildDir, boardState)
         
     def getMoveAndWorker(self, boardState):
         validMoves = []
@@ -34,8 +34,8 @@ class RandomPlayer(Player):
         directionToBuild = random.choice(validBuilds)
         return directionToBuild
 
-    def playMove(self, currBoardState):
-        return super().playMove(currBoardState)
+    def playMove(self, boardState):
+        return super().playMove(boardState)
     
-    def getCurrentScore(self, currBoardState):
-        return super().getCurrentScore(currBoardState)
+    def getCurrentScore(self, boardState):
+        return super().getCurrentScore(boardState)

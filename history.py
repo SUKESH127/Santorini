@@ -4,8 +4,8 @@ class History:
         self.currBoardIndex = -1
         self.maxBoardIndex = -1
     
-    def backup(self, currBoardState):
-        self.mementos.append(currBoardState)
+    def backup(self, boardState):
+        self.mementos.append(boardState)
         self.currBoardIndex += 1
         self.maxBoardIndex = self.currBoardIndex
 
@@ -26,6 +26,7 @@ class History:
 
     def updateWorkers(self, players):
         b = self.getCurrentBoardState()
+        # print(f'currentIndex: {self.currBoardIndex}, maxIndex: {self.maxBoardIndex}, mementoCount: {len(self.mementos)}')
         for i in range(5):
             for j in range(5):
                 pos = [j, i]

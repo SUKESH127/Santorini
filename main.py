@@ -82,14 +82,16 @@ class Manager:
 
     def save(self):
         self.history.backup(BoardState(self.players, self.boardState))
-        for b in self.history.mementos:
-            print("MEMENTO BOARD STATE")
-            b.printBoardState()
-            print("$$$$$$$$$$$$$$$$$$")
+        # for b in self.history.mementos:
+        #     print("MEMENTO BOARD STATE")
+        #     b.printBoardState()
+        #     print("$$$$$$$$$$$$$$$$$$")
 
     def switchPlayer(self):
-        self.boardState.switchPlayer()
-        self.currentPlayer = self.boardState.currentPlayer
+        if self.turnCount % 2 == 1:
+            self.currentPlayer = self.whitePlayer
+        else:
+            self.currentPlayer = self.bluePlayer
 
     def playGame(self):
         self.printTurn()
@@ -118,7 +120,6 @@ class Manager:
                 self.save()
             else:
                 continue
-        
             # print to terminal
             self.boardState = self.history.getCurrentBoardState()
             self.history.updateWorkers(self.players)
