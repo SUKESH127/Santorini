@@ -5,7 +5,10 @@ class History:
         self.maxBoardIndex = -1
     
     def backup(self, boardState):
-        self.mementos.append(boardState)
+        if self.currBoardIndex == len(mementos) - 1:
+            self.mementos.append(boardState)
+        else:
+            self.mementos[currBoardIndex] = boardState
         self.currBoardIndex += 1
         self.maxBoardIndex = self.currBoardIndex
 
