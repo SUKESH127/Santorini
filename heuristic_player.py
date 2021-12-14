@@ -14,6 +14,7 @@ class HeuristicPlayer(Player):
         bestMove = self.pickBestMove(validMoves)
         moveScore, moveDir, self.selectedWorker = bestMove[0], bestMove[1], bestMove[2]
         buildDir = self.getBuild(boardState, moveDir)
+        print(f"{self.selectedWorker.name},{moveDir},{buildDir}")
         return Move(self.selectedWorker, moveDir, buildDir, boardState)
     
     def getBuild(self, boardState, moveDir):
