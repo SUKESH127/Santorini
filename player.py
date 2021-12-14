@@ -60,41 +60,26 @@ class Player:
         self.centerScore = w1Center + w2Center
 
     def getTotalDistanceScore(self, currBoardState):
-        
-        def distancePlayerToOpponent(currentPlayerPositions, opponentPositions):
-            # currentPlayer == [[x, y], [x, y]] 
-            # opponentPositions == [[x, y], [x, y]]
-            
+        def distancePlayerToOpponent(currentPlayerPositions, opponentPositions):            
             def getDistanceBetweenPlayers(worker1Position, worker2Position):
                 x1, y1 = worker1Position[0], worker1Position[1]
                 x2, y2 = worker2Position[0], worker2Position[1]
                  # distance between two workers
-                print(f"distance between players [{x1}, {y1}] and [{x2}, {y2}] {max(abs(x1 - x2), abs(y1 - y2))}")
                 return max(abs(x1 - x2), abs(y1 - y2))
-            # compute min distances between currentPlayer's workers and Opponents workers
-            # blue YZ:   opp: AB
-            # min(distance from Z to A, distance from Y to A) + 
-            # min(distance from Z to B, distance from Y to B)
             distOpp1 = min(getDistanceBetweenPlayers(currentPlayerPositions[1], opponentPositions[0]), 
                             getDistanceBetweenPlayers(currentPlayerPositions[0], opponentPositions[0]))
             
             distOpp2 = min(getDistanceBetweenPlayers(currentPlayerPositions[1], opponentPositions[1]), 
                             getDistanceBetweenPlayers(currentPlayerPositions[0], opponentPositions[1]))
-            print(f"distance between players {currentPlayerPositions} and {opponentPositions}: {distOpp1 + distOpp2}")
             return 8 - (distOpp1 + distOpp2)
 
-        # get current Player positions 
         currentPlayerPositions = [self.w1.position, self.w2.position] # [[x, y], [x, y]]
-        # get opponent positions
         opponent = currBoardState.players[1] if (currBoardState.currentPlayer == currBoardState.players[0]) else currBoardState.players[0]
-        # get the positions of the opponent's workers
         opponentPositions = [opponent.w1.position, opponent.w2.position] # [[x, y], [x, y]]
-        # compute distance score
         self.distanceScore = distancePlayerToOpponent(currentPlayerPositions, opponentPositions)
 
     def getCurrentScore(self, currBoardState):
         self.getTotalHeightScore(currBoardState)
         self.getTotalCenterScore(currBoardState)
         self.getTotalDistanceScore(currBoardState)
-        #print("height: ", self.heightScore, "center: ", self.centerScore, "distance: ", self.distanceScore)
         return f", ({self.heightScore}, {self.centerScore}, {self.distanceScore})"
