@@ -1,17 +1,20 @@
 
 class BoardState:
-    def __init__(self, players):
+    def __init__(self, players, template):
         self.board = []
         self.players = players
-        self.current_player = players[0]
-        self.initialize_boardState()
+        self.currentPlayer = players[0]
+        self.initialize_boardState(template)
 
-    def initialize_boardState(self):
+    def initialize_boardState(self, template):
         self.board = []
         for i in range(5):
             row = []
             for j in range(5):
-                row.append(Square())
+                s = Square()
+                if template is not None:
+                    s.level = template.board[i][j].level
+                row.append(s)
             self.board.append(row)
         
         # assign both players' workers
@@ -25,7 +28,7 @@ class BoardState:
 
     def getWorkerPositions(self):
         positions = []
-        for worker in self.current_player.possibleWorkers:
+        for worker in self.currentPlayer.possibleWorkers:
             workerData = (worker.name, worker.position)
             positions.append(workerData)
         return positions
@@ -37,19 +40,19 @@ class BoardState:
         pass
 
     def switchPlayer(self):
-        self.current_player = self.players[1] if self.current_player == self.players[0] else self.players[0]
+        self.currentPlayer = self.players[1] if self.currentPlayer == self.players[0] else self.players[0]
 
     def checkGameOver(self):
-        w1 = self.current_player.w1
-        w2 = self.current_player.w2
+        w1 = self.currentPlayer.w1
+        w2 = self.currentPlayer.w2
         if w1.getHeightScore(self) == 3 or w2.getHeightScore(self) == 3:
-            print(f'{self.current_player.color} has won')
+            print(f'{self.currentPlayer.color} has won')
             return True
         return False
 
-    def printScore(self, current_player):
-        if current_player.playerType == "heuristic":
-            current_player.printCurrentScore()
+    def printScore(self, currentPlayer):
+        if currentPlayer.playerType == "heuristic":
+            currentPlayer.printCurrentScore()
         else:
             return
     

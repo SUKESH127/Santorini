@@ -23,8 +23,8 @@ class HeuristicPlayer(Player):
 
     def generateValidMoves(self, currBoardState):
         moveCandidates = []
-        currentPlayer = currBoardState.current_player
-        opponent = currBoardState.players[1] if (currBoardState.current_player == currBoardState.players[0]) else currBoardState.players[0]
+        currentPlayer = currBoardState.currentPlayer
+        opponent = currBoardState.players[1] if (currBoardState.currentPlayer == currBoardState.players[0]) else currBoardState.players[0]
         # get all moves for current player's workers
         workers = [currentPlayer.w1, currentPlayer.w2]
         for w in workers:

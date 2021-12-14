@@ -1,9 +1,8 @@
 class History:
-    def __init__(self, startingBoardState):
+    def __init__(self):
         self.mementos = []
         self.currBoardIndex = -1
         self.maxBoardIndex = -1
-        self.backup(startingBoardState)
     
     def backup(self, currBoardState):
         self.mementos.append(currBoardState)
@@ -24,5 +23,20 @@ class History:
 
     def getCurrentBoardState(self):
         return self.mementos[self.currBoardIndex]
+
+    def updateWorkers(self, players):
+        b = self.getCurrentBoardState()
+        for i in range(5):
+            for j in range(5):
+                pos = [j, i]
+                w = b.getSquare(pos).worker
+                if w == 'A':
+                    players[0].w1.position = pos
+                elif w == 'B':
+                    players[0].w2.position = pos
+                elif w == 'Y':
+                    players[1].w1.position = pos
+                elif w == 'Z':
+                    players[1].w2.position = pos
 
     

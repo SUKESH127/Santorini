@@ -68,9 +68,11 @@ class Manager:
         self.currentPlayer = self.whitePlayer
         self.enableUndoRedo = enableUndoRedo
         self.enableScore = enableScore
-        self.history = History(BoardState(self.players))
-        self.currentBoardState = self.history.getCurrentBoardState()
         self.turnCount = 1
+        self.history = History()
+        self.boardState = BoardState(self.players, None)
+        # save starting board state
+        self.save()
 
     def undo(self):
         return self.history.moveBack()
@@ -79,43 +81,63 @@ class Manager:
         return self.history.moveForward()
 
     def save(self):
-        self.history.backup(self.currentBoardState)
+        self.history.backup(BoardState(self.players, self.boardState))
+        for b in self.history.mementos:
+            print("MEMENTO BOARD STATE")
+            b.printBoardState()
+            print("$$$$$$$$$$$$$$$$$$")
 
     def switchPlayer(self):
-        self.currentBoardState.switchPlayer()
-        self.currentPlayer = self.currentBoardState.current_player
+        self.boardState.switchPlayer()
+        self.currentPlayer = self.boardState.currentPlayer
 
     def playGame(self):
-        moveType = "next"
-        while not self.currentBoardState.checkGameOver():
+        self.printTurn()
+        while not self.boardState.checkGameOver():
+            if self.enableUndoRedo:
+                moveType = input("undo, redo, or next\n")
+            else:
+                moveType = "next"
+
             # execute move type otherwise reprompt for valid move type
             if (moveType == 'undo'):
                 if self.undo():
                     self.turnCount -= 1
-                self.currentBoardState.printBoardState()
+                    self.switchPlayer()
             elif (moveType == 'redo'):
                 if self.redo():
                     self.turnCount += 1
-                self.currentBoardState.printBoardState()
+                    self.switchPlayer()
             elif (moveType == 'next'):
-                self.currentBoardState.printBoardState()
-                turnString = f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})'
-                if self.enableScore:
-                    turnString += self.currentPlayer.getCurrentScore(self.currentBoardState)
-                print(turnString)
-                self.turnCount += 1
-                if self.currentPlayer.playMove(self.currentBoardState) is False:
+                if self.currentPlayer.playMove(self.boardState) is False:
                     # current player wasn't able to make a move --> current player loses
-                    if self.currentPlayer.color == 'white':
-                        print('blue has won')
-                    else:
-                        print('white has won')
+                    self.printLoser()
                     break
+                self.turnCount += 1
                 self.switchPlayer()
                 self.save()
-            # get next move type for player
-            if self.enableUndoRedo:
-                moveType = input("undo, redo, or next\n")
+            else:
+                continue
+        
+            # print to terminal
+            self.boardState = self.history.getCurrentBoardState()
+            self.history.updateWorkers(self.players)
+            self.printTurn()
+    
+    def printTurn(self):
+        self.boardState.printBoardState()
+        turnString = f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})'
+        if self.enableScore:
+            turnString += self.currentPlayer.getCurrentScore(self.boardState)
+        print(turnString)
+    
+    def printLoser(self):
+        if self.currentPlayer.color == 'white':
+            print('blue has won')
+        else:
+            print('white has won')
+
+
 
 if __name__ == "__main__":
     ProcessInput(sys.argv)
