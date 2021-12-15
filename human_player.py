@@ -7,13 +7,13 @@ class HumanPlayer(Player):
         super().__init__("human", color)      
         
     def getWorker(self):
-        w = input("Select worker to move\n")
+        w = input("Select a worker to move\n")
         while w not in self.possibleWorkers:
             if w in ['A', 'B'] or w in ['Y', 'Z']:
                 print("That is not your worker")
             else:
                 print("Not a valid worker")
-            w = input("Select worker to move\n")
+            w = input("Select a worker to move\n")
         if w == 'A' or w == 'Y':
             self.selectedWorker = self.w1
         else:
@@ -22,24 +22,24 @@ class HumanPlayer(Player):
 
     def getMove(self, boardState):
         validMoves = self.selectedWorker.findAllMoves(boardState)
-        directionToMove = input("Select direction to move\n")
+        directionToMove = input("Select a direction to move (n, ne, e, se, s, sw, w, nw)\n")
         while directionToMove not in validMoves:
             if directionToMove not in self.possibleDirections:
                 print("Not a valid direction")
             else:
                 print(f'Cannot move {directionToMove}')
-            directionToMove = input("Select direction to move\n")
+            directionToMove = input("Select a direction to move (n, ne, e, se, s, sw, w, nw)\n")
         return directionToMove
 
     def getBuild(self, boardState, moveDir):
         validBuilds = self.selectedWorker.findAllBuilds(boardState, moveDir)
-        directionToBuild = input("Select direction to build\n")
+        directionToBuild = input("Select a direction to build (n, ne, e, se, s, sw, w, nw)\n")
         while directionToBuild not in validBuilds:
             if directionToBuild not in self.possibleDirections:
                 print("Not a valid direction")
             else:
                 print(f'Cannot build {directionToBuild}')
-            directionToBuild = input("Select direction to build\n")
+            directionToBuild = input("Select a direction to build (n, ne, e, se, s, sw, w, nw)\n")
         return directionToBuild
 
     def selectMove(self, boardState):
