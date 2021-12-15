@@ -69,7 +69,6 @@ class Manager:
         self.currentPlayer = self.whitePlayer
         self.enableUndoRedo = enableUndoRedo
         self.enableScore = enableScore
-        self.turnCount = 1
         self.history = History()
         self.boardState = BoardState(self.players)
         # save starting board state
@@ -84,18 +83,9 @@ class Manager:
     def save(self):
         mementoCopy = copy.deepcopy(self.boardState)
         self.history.backup(mementoCopy)
-        print("$$$$$$$$$$$$$$$$$$")
-        print("$$$$$$$$$$$$$$$$$$")
-        for b in self.history.mementos:
-            b.printBoardState()
-        print("$$$$$$$$$$$$$$$$$$")
-        print("$$$$$$$$$$$$$$$$$$")
 
     def switchPlayer(self):
-        if self.turnCount % 2 == 1:
-            self.currentPlayer = self.whitePlayer
-        else:
-            self.currentPlayer = self.bluePlayer
+        self.boardState.switchPlayer()
 
     def playGame(self):
         self.printTurn()
@@ -107,24 +97,17 @@ class Manager:
             # execute move type otherwise reprompt for valid move type
             if (moveType == 'undo'):
                 if self.undo():
-                    print("Undo successful")
-                    self.turnCount -= 1
-                    self.switchPlayer()
                     self.boardState = self.history.getCurrentBoardState()
                     self.history.updateWorkers(self.players)
             elif (moveType == 'redo'):
                 if self.redo():
-                    self.turnCount += 1
-                    self.switchPlayer()
                     self.boardState = self.history.getCurrentBoardState()
                     self.history.updateWorkers(self.players)
             elif (moveType == 'next'):
-                if self.currentPlayer.playMove(self.boardState) is False:
+                if self.boardState.currentPlayer.playMove(self.boardState) is False:
                     # current player wasn't able to make a move --> current player loses
                     self.printLoser()
                     break
-                self.turnCount += 1
-                self.switchPlayer()
                 self.save()
             else:
                 continue
@@ -134,12 +117,7 @@ class Manager:
             self.printTurn()
     
     def printTurn(self):
-        print(f'{self.whitePlayer.w1.name} {self.whitePlayer.w1.position}, {self.whitePlayer.w2.name} {self.whitePlayer.w2.position}, {self.bluePlayer.w1.name} {self.bluePlayer.w1.position}, {self.bluePlayer.w2.name} {self.bluePlayer.w2.position}')
-        self.boardState.printBoardState()
-        turnString = f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})'
-        if self.enableScore:
-            turnString += self.currentPlayer.getCurrentScore(self.boardState)
-        print(turnString)
+        self.boardState.printBoardState(self.enableScore)
     
     def printLoser(self):
         if self.currentPlayer.color == 'white':

@@ -1,3 +1,6 @@
+import copy
+
+
 class History:
     def __init__(self):
         self.mementos = []
@@ -5,7 +8,9 @@ class History:
         self.maxBoardIndex = -1
     
     def backup(self, boardState):
-        self.mementos = self.mementos[:self.currBoardIndex+1]
+        if self.maxBoardIndex > self.currBoardIndex:
+            while len(self.mementos) != self.currBoardIndex + 1:
+                self.mementos.pop()
         self.mementos.append(boardState)
         self.currBoardIndex += 1
         self.maxBoardIndex = self.currBoardIndex
@@ -23,10 +28,9 @@ class History:
         return False
 
     def getCurrentBoardState(self):
-        return self.mementos[self.currBoardIndex]
+        return copy.deepcopy(self.mementos[self.currBoardIndex])
 
     def updateWorkers(self, players):
-        print(f'returning memento at index: {self.currBoardIndex}')
         b = self.getCurrentBoardState()
         for i in range(5):
             for j in range(5):

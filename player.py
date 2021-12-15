@@ -26,6 +26,7 @@ class Player:
             # no valid moves, this player loses
             return False
         m.execute()
+        boardState.switchPlayer()
         return True
 
     def selectMove(self, boardState):

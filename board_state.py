@@ -4,6 +4,8 @@ class BoardState:
         self.board = []
         self.players = players
         self.initialize_boardState()
+        self.turnNumber = 1
+        self.currentPlayer = self.players[0]
 
     def initialize_boardState(self):
         self.board = []
@@ -29,12 +31,23 @@ class BoardState:
                 return True
         return False
     
-    def printBoardState(self):
+    def printBoardState(self, enableScore):
         print("+--+--+--+--+--+")
         for i in range(5):
             for j in range(5):
                 print(f'|{self.getSquare([j, i])}', end='')
             print("|\n+--+--+--+--+--+")
+        turnString = f'Turn: {self.turnNumber}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})'
+        if enableScore:
+            turnString += self.currentPlayer.getCurrentScore(self)
+        print(turnString)
+
+    def switchPlayer(self):
+        self.turnNumber += 1
+        if self.currentPlayer == self.players[0]:
+            self.currentPlayer = self.players[1]
+        else:
+            self.currentPlayer = self.players[0]
 
 class Square:
     def __init__(self):
