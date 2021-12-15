@@ -19,6 +19,9 @@ class Player:
         self.heightScore = 0
         self.centerScore = 0
         self.distanceScore = 0
+    
+    def hasMoves(self, boardState):
+        return self.w1.hasMoves(boardState) or self.w2.hasMoves(boardState)
         
     def playMove(self, boardState):
         m = self.selectMove(boardState)

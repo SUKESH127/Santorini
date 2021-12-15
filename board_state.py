@@ -29,6 +29,10 @@ class BoardState:
             if p.w1.getHeightScore(self) == 3 or p.w2.getHeightScore(self) == 3:
                 print(f'{p.color} has won')
                 return True
+        if not self.currentPlayer.hasMoves(self):
+            otherPlayer = self.players[0] if self.currentPlayer == self.players[1] else self.players[1]
+            print(f'{otherPlayer.color} has won')
+            return True
         return False
     
     def printBoardState(self, enableScore):

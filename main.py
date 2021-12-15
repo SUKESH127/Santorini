@@ -104,17 +104,12 @@ class Manager:
                     self.boardState = self.history.getCurrentBoardState()
                     self.history.updateWorkers(self.players)
             elif (moveType == 'next'):
-                if self.boardState.currentPlayer.playMove(self.boardState) is False:
-                    # current player wasn't able to make a move --> current player loses
-                    self.printLoser()
-                    break
+                self.boardState.currentPlayer.playMove(self.boardState)
                 self.save()
             else:
                 continue
-            # print to terminal
-            # self.boardState = self.history.getCurrentBoardState()
-            # self.history.updateWorkers(self.players)
             self.printTurn()
+        self.printLoser()
     
     def printTurn(self):
         self.boardState.printBoardState(self.enableScore)

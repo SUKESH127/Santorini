@@ -35,7 +35,9 @@ class Worker:
         elif endSquare.canBuild():
             return True
         return False
-        
+    
+    def hasMoves(self, boardState):
+        return not (self.findAllMoves(boardState) == [])
     
     def findAllMoves(self, boardState):
         cardinal_dirs = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
