@@ -5,18 +5,6 @@ Santorini is an abstract strategy game (think checkers/chess) designed by Dr. Go
 
 The physical game has lovely pieces designed to mimic the iconic architecture of the real island of Santorini, this is an ASCII representation so that the game can be played through a command line interface (CLI). We are only concerned with the 5x5 grid, and the workers are in default starting positions (shown below), so that the players do not have to pick where to start.
 
-+--+--+--+--+--+
-|0 |0 |0 |0 |0 |
-+--+--+--+--+--+
-|0 |0Y|0 |0B|0 |
-+--+--+--+--+--+
-|0 |0 |0 |0 |0 |
-+--+--+--+--+--+
-|0 |0A|0 |0Z|0 |
-+--+--+--+--+--+
-|0 |0 |0 |0 |0 |
-+--+--+--+--+--+
-
 This is the starting setup. The 5x5 board is viewed top down. A number in each space represents the level of the building. They all start unbuilt at level 0. A complete tower with a blue dome on top is shown as level 4. Next to the level number there is either a space, or the symbol for one of the 4 workers. The white player controls the A and B workers, while the blue player controls Y and Z.
 
 # Move representation
