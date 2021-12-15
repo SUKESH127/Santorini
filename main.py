@@ -109,7 +109,6 @@ class Manager:
             else:
                 continue
             self.printTurn()
-        self.printLoser()
     
     def printTurn(self):
         self.boardState.printBoardState(self.enableScore)
