@@ -1,19 +1,16 @@
 
 class BoardState:
-    def __init__(self, players, template):
+    def __init__(self, players):
         self.board = []
         self.players = players
-        self.initialize_boardState(template)
+        self.initialize_boardState()
 
-    def initialize_boardState(self, template):
+    def initialize_boardState(self):
         self.board = []
         for i in range(5):
             row = []
             for j in range(5):
-                s = Square()
-                if template is not None:
-                    s.level = template.board[i][j].level
-                row.append(s)
+                row.append(Square())
             self.board.append(row)
         
         # assign both players' workers

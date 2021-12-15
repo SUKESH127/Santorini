@@ -1,6 +1,7 @@
 
 import sys
 from typing import List
+import copy
 
 from board_state import BoardState
 from factory import Factory
@@ -70,7 +71,7 @@ class Manager:
         self.enableScore = enableScore
         self.turnCount = 1
         self.history = History()
-        self.boardState = BoardState(self.players, None)
+        self.boardState = BoardState(self.players)
         # save starting board state
         self.save()
 
@@ -81,7 +82,8 @@ class Manager:
         return self.history.moveForward()
 
     def save(self):
-        self.history.backup(BoardState(self.players, self.boardState))
+        mementoCopy = copy.deepcopy(self.boardState)
+        self.history.backup(mementoCopy)
         print("$$$$$$$$$$$$$$$$$$")
         print("$$$$$$$$$$$$$$$$$$")
         for b in self.history.mementos:
@@ -105,12 +107,17 @@ class Manager:
             # execute move type otherwise reprompt for valid move type
             if (moveType == 'undo'):
                 if self.undo():
+                    print("Undo successful")
                     self.turnCount -= 1
                     self.switchPlayer()
+                    self.boardState = self.history.getCurrentBoardState()
+                    self.history.updateWorkers(self.players)
             elif (moveType == 'redo'):
                 if self.redo():
                     self.turnCount += 1
                     self.switchPlayer()
+                    self.boardState = self.history.getCurrentBoardState()
+                    self.history.updateWorkers(self.players)
             elif (moveType == 'next'):
                 if self.currentPlayer.playMove(self.boardState) is False:
                     # current player wasn't able to make a move --> current player loses
@@ -122,11 +129,12 @@ class Manager:
             else:
                 continue
             # print to terminal
-            self.boardState = self.history.getCurrentBoardState()
-            self.history.updateWorkers(self.players)
+            # self.boardState = self.history.getCurrentBoardState()
+            # self.history.updateWorkers(self.players)
             self.printTurn()
     
     def printTurn(self):
+        print(f'{self.whitePlayer.w1.name} {self.whitePlayer.w1.position}, {self.whitePlayer.w2.name} {self.whitePlayer.w2.position}, {self.bluePlayer.w1.name} {self.bluePlayer.w1.position}, {self.bluePlayer.w2.name} {self.bluePlayer.w2.position}')
         self.boardState.printBoardState()
         turnString = f'Turn: {self.turnCount}, {self.currentPlayer.color} ({self.currentPlayer.w1.name}{self.currentPlayer.w2.name})'
         if self.enableScore:

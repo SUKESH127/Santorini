@@ -5,10 +5,8 @@ class History:
         self.maxBoardIndex = -1
     
     def backup(self, boardState):
-        if self.currBoardIndex >= 0 and self.currBoardIndex == len(self.mementos):
-            self.mementos.append(boardState)
-        else:
-            self.mementos[self.currBoardIndex] = boardState
+        self.mementos = self.mementos[:self.currBoardIndex+1]
+        self.mementos.append(boardState)
         self.currBoardIndex += 1
         self.maxBoardIndex = self.currBoardIndex
 
@@ -25,12 +23,11 @@ class History:
         return False
 
     def getCurrentBoardState(self):
-        print(f'returning memento at index: {self.currBoardIndex}')
         return self.mementos[self.currBoardIndex]
 
     def updateWorkers(self, players):
+        print(f'returning memento at index: {self.currBoardIndex}')
         b = self.getCurrentBoardState()
-        # print(f'boardIndex: {self.currBoardIndex}, maxBoardIndex: {self.maxBoardIndex}, mementoCount: {len(self.mementos)}')
         for i in range(5):
             for j in range(5):
                 pos = [j, i]
