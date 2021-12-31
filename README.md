@@ -11,24 +11,6 @@ This is the starting setup. The 5x5 board is viewed top down. A number in each s
 
 On a player's turn they indicate through the CLI which worker they wish to move, which cardinal direction they wish to move, and which cardinal direction they wish to build (from the new space). For example, the white player chooses to move worker A north, then build in the space they just left.
 
-Select a worker to move
-A
-Select a direction to move (n, ne, e, se, s, sw, w, nw)
-n
-Select a direction to build (n, ne, e, se, s, sw, w, nw)
-s
-+--+--+--+--+--+
-|0 |0 |0 |0 |0 |
-+--+--+--+--+--+
-|0 |0Y|0 |0B|0 |
-+--+--+--+--+--+
-|0 |0A|0 |0 |0 |
-+--+--+--+--+--+
-|0 |1 |0 |0Z|0 |
-+--+--+--+--+--+
-|0 |0 |0 |0 |0 |
-+--+--+--+--+--+
-
 # Options
 There are two types of basic computer opponents to play against. There is a Random computer player that will randomly choose a move from the set of allowed moves. Two bots are able to play against each other, in which case it will run through all the turns without prompting for additional input, until the game ends. The computer players print the move they took, so you can see what they did. This includes the worker that moves, the move direction, and the build direction. For example, the move shown earlier should be printed as A,n,s.
 
